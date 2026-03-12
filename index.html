@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Assignment Portal â€” CSED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050810;
+  --surface: #0a0f1e;
+  --surface2: #0e1628;
+  --border: #1a2540;
+  --border-glow: #1e3a6e;
+  --text: #e2e8f8;
+  --text-dim: #6b7fa3;
+  --text-muted: #3d4f72;
+  --accent: #00d4ff;
+  --accent2: #7c3aed;
+  --accent3: #06ffa5;
+  --warn: #ff6b35;
+  --danger: #ff3366;
+  --success: #06ffa5;
+  --gold: #ffd700;
+  --glow-blue: 0 0 20px rgba(0,212,255,0.3);
+  --glow-purple: 0 0 20px rgba(124,58,237,0.3);
+  --glow-green: 0 0 20px rgba(6,255,165,0.3);
+  --radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999;
+}
+
+/* PAGES */
+.page { display: none; min-height: 100vh; animation: fadeIn 0.4s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(5,8,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand {
+  font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em;
+  color: var(--accent); text-shadow: var(--glow-blue);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.nav-brand span { color: var(--text); }
+.nav-links { display: flex; gap: 0.5rem; align-items: center; }
+.nav-btn {
+  padding: 0.4rem 1rem; border-radius: 6px; font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace; font-weight: 500;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); cursor: pointer;
+  transition: var(--transition);
+}
+.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+.nav-btn.active { background: rgba(0,212,255,0.1); border-color: var(--accent); color: var(--accent); }
+.nav-user {
+  display: none; align-items: center; gap: 0.75rem;
+  font-size: 0.8rem; color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+}
+.nav-user.visible { display: flex; }
+.nav-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700; color: #fff;
+}
+.logout-btn {
+  padding: 0.3rem 0.7rem; border-radius: 5px; font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(255,51,102,0.1); border: 1px solid rgba(255,51,102,0.3);
+  color: var(--danger); cursor: pointer; transition: var(--transition);
+}
+.logout-btn:hover { background: rgba(255,51,102,0.2); }
+
+/* GRID BG */
+.grid-bg {
+  position: fixed; inset: 0; z-index: -1;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• HOME PAGE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+#home { position: relative; }
+
+.hero {
+  padding: 140px 2rem 80px;
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+@media (max-width: 768px) { .hero { grid-template-columns: 1fr; padding: 120px 1.5rem 60px; } }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.35rem 0.85rem; border-radius: 100px;
+  background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+  color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.03em; margin-bottom: 1.5rem;
+}
+.hero h1 .glow { color: var(--accent); text-shadow: 0 0 40px rgba(0,212,255,0.5); }
+.hero h1 .glow2 { color: var(--accent3); text-shadow: 0 0 40px rgba(6,255,165,0.5); }
+
+.hero p {
+  font-size: 1.05rem; color: var(--text-dim); line-height: 1.7;
+  margin-bottom: 2.5rem; max-width: 480px;
+}
+
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn {
+  padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.9rem;
+  font-family: 'Syne', sans-serif; font-weight: 600; cursor: pointer;
+  transition: var(--transition); border: none; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #0088cc);
+  color: #050810; box-shadow: 0 0 30px rgba(0,212,255,0.3);
+}
+.btn-primary:hover { box-shadow: 0 0 50px rgba(0,212,255,0.5); transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.btn-ghost:hover { border-color: var(--accent3); color: var(--accent3); }
+.btn-accent2 {
+  background: linear-gradient(135deg, var(--accent2), #5b21b6);
+  color: #fff; box-shadow: 0 0 30px rgba(124,58,237,0.3);
+}
+.btn-accent2:hover { box-shadow: 0 0 50px rgba(124,58,237,0.5); transform: translateY(-2px); }
+.btn-success {
+  background: linear-gradient(135deg, var(--accent3), #059669);
+  color: #050810; box-shadow: 0 0 30px rgba(6,255,165,0.3);
+}
+.btn-success:hover { box-shadow: 0 0 50px rgba(6,255,165,0.5); transform: translateY(-2px); }
+.btn-warn {
+  background: linear-gradient(135deg, var(--warn), #c2410c);
+  color: #fff;
+}
+.btn-sm { padding: 0.45rem 1rem; font-size: 0.8rem; }
+.btn-danger {
+  background: linear-gradient(135deg, var(--danger), #b91c1c);
+  color: #fff;
+}
+
+/* TERMINAL CARD */
+.terminal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,212,255,0.08);
+}
+.terminal-bar {
+  background: var(--surface2); padding: 0.75rem 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-dot:nth-child(1) { background: #ff5f56; }
+.term-dot:nth-child(2) { background: #ffbd2e; }
+.term-dot:nth-child(3) { background: #27c93f; }
+.term-title {
+  margin-left: auto; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; color: var(--text-muted);
+}
+.terminal-body { padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; }
+.term-line { display: flex; gap: 0.5rem; }
+.term-prompt { color: var(--accent3); }
+.term-cmd { color: var(--text); }
+.term-out { color: var(--text-dim); padding-left: 1rem; }
+.term-out.success { color: var(--accent3); }
+.term-out.warn { color: var(--gold); }
+.term-cursor { display: inline-block; width: 8px; height: 14px; background: var(--accent); animation: blink 1s infinite; vertical-align: text-bottom; }
+@keyframes blink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } }
+
+/* STATS ROW */
+.stats-row {
+  max-width: 1200px; margin: 0 auto 5rem;
+  padding: 0 2rem;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+}
+@media (max-width: 768px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  position: relative; overflow: hidden;
+  transition: var(--transition);
+}
+.stat-card:hover { border-color: var(--border-glow); transform: translateY(-4px); }
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0; transition: var(--transition);
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 0.25rem; }
+.stat-label { font-size: 0.8rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+
+/* MODULE CARDS */
+.modules-section {
+  max-width: 1200px; margin: 0 auto 5rem; padding: 0 2rem;
+}
+.section-title {
+  font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.02em;
+}
+.section-sub { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem; font-family: 'JetBrains Mono', monospace; }
+
+.modules-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+@media (max-width: 900px) { .modules-grid { grid-template-columns: 1fr; } }
+
+.module-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; cursor: pointer;
+  transition: var(--transition); position: relative; overflow: hidden;
+}
+.module-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, var(--glow-color, rgba(0,212,255,0.08)), transparent 60%);
+  opacity: 0; transition: var(--transition);
+}
+.module-card:hover::after { opacity: 1; }
+.module-card:hover { border-color: var(--card-border, var(--accent)); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.module-card.student { --card-border: var(--accent); --glow-color: rgba(0,212,255,0.1); }
+.module-card.faculty { --card-border: var(--accent2); --glow-color: rgba(124,58,237,0.1); }
+.module-card.admin { --card-border: var(--accent3); --glow-color: rgba(6,255,165,0.1); }
+
+.module-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 1.25rem;
+}
+.module-card.student .module-icon { background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); }
+.module-card.faculty .module-icon { background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); }
+.module-card.admin .module-icon { background: rgba(6,255,165,0.1); border: 1px solid rgba(6,255,165,0.2); }
+
+.module-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.75rem;
+  display: inline-block;
+}
+.module-card.student .module-tag { background: rgba(0,212,255,0.1); color: var(--accent); }
+.module-card.faculty .module-tag { background: rgba(124,58,237,0.1); color: var(--accent2); }
+.module-card.admin .module-tag { background: rgba(6,255,165,0.1); color: var(--accent3); }
+
+.module-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.module-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 1.5rem; }
+.module-features { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.module-features li {
+  font-size: 0.8rem; color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.module-features li::before { content: 'â–¸'; color: var(--card-border, var(--accent)); }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LOGIN PAGES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.login-wrap {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 80px 1rem 2rem;
+}
+.login-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 3rem; width: 100%; max-width: 440px;
+  box-shadow: 0 0 80px rgba(0,212,255,0.06);
+  position: relative; overflow: hidden;
+}
+.login-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+.login-logo { font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem; }
+.login-title { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 0.25rem; }
+.login-sub { font-size: 0.8rem; color: var(--text-dim); text-align: center; font-family: 'JetBrains Mono', monospace; margin-bottom: 2rem; }
+
+/* FORM */
+.form-group { margin-bottom: 1.25rem; }
+.form-label {
+  display: block; font-size: 0.75rem; font-weight: 600;
+  color: var(--text-dim); margin-bottom: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; text-transform: uppercase;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 0.75rem 1rem;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 0.9rem;
+  font-family: 'Syne', sans-serif; transition: var(--transition);
+  outline: none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+}
+.form-select { cursor: pointer; }
+.form-textarea { resize: vertical; min-height: 100px; }
+.form-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem; font-family: 'JetBrains Mono', monospace; }
+
+/* ALERTS */
+.alert {
+  padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.82rem;
+  margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.alert-error { background: rgba(255,51,102,0.1); border: 1px solid rgba(255,51,102,0.3); color: var(--danger); }
+.alert-success { background: rgba(6,255,165,0.08); border: 1px solid rgba(6,255,165,0.2); color: var(--accent3); }
+.alert-warn { background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); color: var(--warn); }
+.alert { display: none; }
+.alert.visible { display: flex; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* DIVIDER */
+.divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: var(--text-muted); font-size: 0.75rem; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DASHBOARD LAYOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.dash-layout { display: flex; min-height: 100vh; padding-top: 64px; }
+
+.sidebar {
+  width: 260px; background: var(--surface); border-right: 1px solid var(--border);
+  position: fixed; top: 64px; bottom: 0; left: 0; overflow-y: auto;
+  padding: 1.5rem 1rem;
+}
+.sidebar-section { margin-bottom: 2rem; }
+.sidebar-label {
+  font-size: 0.65rem; font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted);
+  padding: 0 0.75rem; margin-bottom: 0.5rem;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.6rem 0.75rem; border-radius: 8px; cursor: pointer;
+  font-size: 0.85rem; color: var(--text-dim); transition: var(--transition);
+  border: 1px solid transparent;
+}
+.sidebar-item:hover { background: var(--surface2); color: var(--text); }
+.sidebar-item.active { background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.15); color: var(--accent); }
+.sidebar-item .icon { font-size: 1rem; width: 20px; text-align: center; }
+.sidebar-badge {
+  margin-left: auto; background: var(--accent); color: #050810;
+  font-size: 0.65rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 10px;
+}
+
+.dash-main { margin-left: 260px; flex: 1; padding: 2rem; }
+@media (max-width: 900px) { .sidebar { display: none; } .dash-main { margin-left: 0; } }
+
+/* PAGE HEADER */
+.page-header { margin-bottom: 2rem; }
+.page-header h2 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+.page-header p { color: var(--text-dim); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+.page-header-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+
+/* DASH PANELS */
+.panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.5rem;
+  transition: var(--transition);
+}
+.panel-title {
+  font-size: 0.9rem; font-weight: 700; margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 0.5rem; justify-content: space-between;
+}
+.panel-title span { color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 400; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 2rem; }
+@media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 600px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+.kpi {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.25rem;
+  position: relative; overflow: hidden;
+}
+.kpi-label { font-size: 0.72rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.kpi-value { font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 0.25rem; }
+.kpi-sub { font-size: 0.72rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+.kpi.blue .kpi-value { color: var(--accent); }
+.kpi.purple .kpi-value { color: var(--accent2); }
+.kpi.green .kpi-value { color: var(--accent3); }
+.kpi.gold .kpi-value { color: var(--gold); }
+.kpi.red .kpi-value { color: var(--danger); }
+
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  text-align: left; padding: 0.75rem 1rem;
+  font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 0.85rem 1rem; font-size: 0.83rem; border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tbody tr { transition: var(--transition); }
+.data-table tbody tr:hover { background: var(--surface2); }
+
+/* BADGES */
+.badge {
+  display: inline-flex; align-items: center; padding: 0.2rem 0.6rem;
+  border-radius: 100px; font-size: 0.68rem;
+  font-family: 'JetBrains Mono', monospace; font-weight: 600; white-space: nowrap;
+}
+.badge-submitted { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+.badge-pending { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid rgba(255,215,0,0.2); }
+.badge-graded { background: rgba(6,255,165,0.1); color: var(--accent3); border: 1px solid rgba(6,255,165,0.2); }
+.badge-late { background: rgba(255,107,53,0.1); color: var(--warn); border: 1px solid rgba(255,107,53,0.2); }
+.badge-high { background: rgba(255,51,102,0.1); color: var(--danger); border: 1px solid rgba(255,51,102,0.2); }
+.badge-low { background: rgba(6,255,165,0.08); color: var(--accent3); border: 1px solid rgba(6,255,165,0.2); }
+.badge-medium { background: rgba(255,215,0,0.08); color: var(--gold); border: 1px solid rgba(255,215,0,0.2); }
+.badge-active { background: rgba(6,255,165,0.1); color: var(--accent3); border: 1px solid rgba(6,255,165,0.2); }
+.badge-inactive { background: rgba(107,127,163,0.1); color: var(--text-dim); border: 1px solid rgba(107,127,163,0.2); }
+
+/* PROGRESS BAR */
+.prog-bar-wrap { background: var(--surface2); border-radius: 100px; height: 6px; overflow: hidden; }
+.prog-bar { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.8s ease; }
+.prog-bar.green { background: linear-gradient(90deg, var(--accent3), #059669); }
+.prog-bar.red { background: linear-gradient(90deg, var(--danger), #be123c); }
+.prog-bar.gold { background: linear-gradient(90deg, var(--gold), #d97706); }
+
+/* SIMILARITY */
+.sim-pct { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+.sim-high { color: var(--danger); }
+.sim-med { color: var(--gold); }
+.sim-low { color: var(--accent3); }
+
+/* FILE UPLOAD */
+.upload-zone {
+  border: 2px dashed var(--border); border-radius: 12px;
+  padding: 2.5rem; text-align: center; cursor: pointer;
+  transition: var(--transition); background: var(--surface2);
+}
+.upload-zone:hover, .upload-zone.drag { border-color: var(--accent); background: rgba(0,212,255,0.04); }
+.upload-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.upload-text { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0.25rem; }
+.upload-hint { font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+.upload-file-info {
+  display: none; align-items: center; gap: 0.75rem;
+  padding: 0.75rem 1rem; background: rgba(6,255,165,0.06);
+  border: 1px solid rgba(6,255,165,0.2); border-radius: 8px; margin-top: 1rem;
+}
+.upload-file-info.show { display: flex; }
+.upload-file-name { font-size: 0.82rem; color: var(--accent3); font-family: 'JetBrains Mono', monospace; }
+.upload-file-size { font-size: 0.72rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+/* FEEDBACK BOX */
+.feedback-box {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1rem; font-size: 0.85rem;
+  color: var(--text-dim); line-height: 1.6; font-family: 'JetBrains Mono', monospace;
+  white-space: pre-wrap;
+}
+
+/* RADAR CHART CSS */
+.marks-ring {
+  display: flex; align-items: center; justify-content: center;
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 3px solid var(--border); position: relative;
+  font-size: 1.1rem; font-weight: 800;
+}
+.marks-ring.high { border-color: var(--accent3); color: var(--accent3); }
+.marks-ring.mid { border-color: var(--gold); color: var(--gold); }
+.marks-ring.low { border-color: var(--danger); color: var(--danger); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(5,8,16,0.85); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border-glow);
+  border-radius: 16px; width: 100%; max-width: 560px; max-height: 90vh;
+  overflow-y: auto; box-shadow: 0 0 80px rgba(0,212,255,0.12);
+}
+.modal-header {
+  padding: 1.5rem; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title { font-size: 1.1rem; font-weight: 700; }
+.modal-close {
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; cursor: pointer; color: var(--text-dim); font-size: 1.1rem;
+  transition: var(--transition); background: transparent; border: none;
+}
+.modal-close:hover { background: var(--surface2); color: var(--text); }
+.modal-body { padding: 1.5rem; }
+.modal-footer {
+  padding: 1rem 1.5rem; border-top: 1px solid var(--border);
+  display: flex; gap: 0.75rem; justify-content: flex-end;
+}
+
+/* SEARCH */
+.search-wrap { position: relative; }
+.search-input {
+  width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 0.85rem;
+  font-family: 'Syne', sans-serif; outline: none; transition: var(--transition);
+}
+.search-input:focus { border-color: var(--accent); }
+.search-icon {
+  position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted); font-size: 0.9rem; pointer-events: none;
+}
+
+/* TABS */
+.tabs { display: flex; gap: 0.25rem; margin-bottom: 1.5rem; background: var(--surface2); padding: 0.25rem; border-radius: 10px; border: 1px solid var(--border); width: fit-content; }
+.tab {
+  padding: 0.5rem 1.25rem; border-radius: 7px; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition); color: var(--text-dim);
+  border: none; background: transparent; font-family: 'Syne', sans-serif;
+}
+.tab.active { background: var(--surface); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+
+/* SCORE DISPLAY */
+.score-display {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.score-num { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+.score-denom { font-size: 0.8rem; color: var(--text-muted); }
+
+/* REPORT SECTION */
+.report-student-card {
+  display: flex; align-items: center; gap: 1.25rem;
+  padding: 1.25rem; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem;
+}
+.student-avatar-lg {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.student-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
+.student-info p { font-size: 0.75rem; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+
+/* TOAST */
+.toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 3000; display: flex; flex-direction: column; gap: 0.5rem; }
+.toast {
+  padding: 0.75rem 1.25rem; border-radius: 10px; font-size: 0.82rem;
+  display: flex; align-items: center; gap: 0.5rem; max-width: 320px;
+  animation: slideInRight 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.toast-success { background: rgba(6,255,165,0.12); border: 1px solid rgba(6,255,165,0.3); color: var(--accent3); }
+.toast-error { background: rgba(255,51,102,0.12); border: 1px solid rgba(255,51,102,0.3); color: var(--danger); }
+.toast-info { background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.25); color: var(--accent); }
+@keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* CHART AREA */
+.bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; padding-top: 10px; }
+.bar { flex: 1; border-radius: 4px 4px 0 0; transition: height 0.8s ease; position: relative; cursor: pointer; }
+.bar:hover::after {
+  content: attr(data-val); position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+  font-size: 0.65rem; font-family: 'JetBrains Mono'; color: var(--text); white-space: nowrap;
+}
+
+/* DIVIDER lines in tables */
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+@media (max-width: 700px) { .grid-3 { grid-template-columns: 1fr; } }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* DB SCHEMA */
+.schema-table { margin-bottom: 1.5rem; }
+.schema-table-name {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+  font-weight: 700; color: var(--accent); margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.schema-cols { font-family: 'JetBrains Mono', monospace; font-size: 0.73rem; }
+.schema-col { display: flex; gap: 1rem; padding: 0.3rem 0; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+.schema-col:last-child { border-bottom: none; }
+.schema-col-name { color: var(--text); width: 180px; flex-shrink: 0; }
+.schema-col-type { color: var(--accent2); width: 120px; }
+.schema-col-note { color: var(--text-muted); }
+.pk { color: var(--gold) !important; }
+.fk { color: var(--accent3) !important; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand" onclick="showPage('home')">â¬¡ <span>CS</span>AssignPortal</div>
+  <div class="nav-links" id="navLinks">
+    <button class="nav-btn active" onclick="showPage('home')">Home</button>
+    <button class="nav-btn" onclick="showPage('studentLogin')">Student</button>
+    <button class="nav-btn" onclick="showPage('facultyLogin')">Faculty</button>
+    <button class="nav-btn" onclick="showPage('adminLogin')">Admin</button>
+    <button class="nav-btn" onclick="showPage('dbSchema')">DB Schema</button>
+  </div>
+  <div class="nav-user" id="navUser">
+    <div class="nav-avatar" id="navAvatar">?</div>
+    <span id="navName">User</span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• HOME â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page active" id="home">
+  <section class="hero">
+    <div>
+      <div class="hero-badge"><div class="hero-badge-dot"></div>CS Dept â€” Academic Year 2024â€“25</div>
+      <h1>Assignment<br><span class="glow">Submission</span> &<br><span class="glow2">Evaluation</span> Portal</h1>
+      <p>A unified platform for Computer Science students and faculty to manage assignments, track submissions, detect plagiarism, and streamline evaluations.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="showPage('studentLogin')">ðŸŽ“ Student Login</button>
+        <button class="btn btn-accent2" onclick="showPage('facultyLogin')">ðŸ‘¨â€ðŸ« Faculty Login</button>
+        <button class="btn btn-ghost" onclick="showPage('adminLogin')">âš™ Admin</button>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
+        <div class="term-title">portal.log</div>
+      </div>
+      <div class="terminal-body">
+        <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">status --all</span></div>
+        <div class="term-line"><span class="term-out success">âœ“ Portal Online â€” v2.4.1</span></div>
+        <div class="term-line"><span class="term-out">â†’ 17 students enrolled</span></div>
+        <div class="term-line"><span class="term-out">â†’ 5 active assignments</span></div>
+        <div class="term-line"><span class="term-out warn">âš  3 submissions pending eval</span></div>
+        <div class="term-line"><span class="term-out success">âœ“ Plagiarism engine ready</span></div>
+        <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">uptime</span></div>
+        <div class="term-line"><span class="term-out">99.8% availability this semester</span></div>
+        <div class="term-line"><span class="term-prompt">$</span><span class="term-cursor"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-icon">ðŸ‘¥</div><div class="stat-value">17</div><div class="stat-label">Enrolled Students</div></div>
+    <div class="stat-card"><div class="stat-icon">ðŸ“‹</div><div class="stat-value">5</div><div class="stat-label">Active Assignments</div></div>
+    <div class="stat-card"><div class="stat-icon">ðŸ“¤</div><div class="stat-value">68</div><div class="stat-label">Total Submissions</div></div>
+    <div class="stat-card"><div class="stat-icon">âš¡</div><div class="stat-value">74%</div><div class="stat-label">Average Score</div></div>
+  </div>
+
+  <div class="modules-section">
+    <div class="section-title">Three Integrated Modules</div>
+    <div class="section-sub">// Access tailored dashboards based on your role</div>
+    <div class="modules-grid">
+      <div class="module-card student" onclick="showPage('studentLogin')">
+        <div class="module-icon">ðŸŽ“</div>
+        <div class="module-tag">Student Module</div>
+        <div class="module-title">Student Portal</div>
+        <div class="module-desc">Upload assignments, track submission status, view marks, and receive detailed faculty feedback.</div>
+        <ul class="module-features">
+          <li>Secure login with reg. number</li>
+          <li>Drag & drop file upload</li>
+          <li>View marks & feedback</li>
+          <li>Submission history timeline</li>
+          <li>Similarity score visibility</li>
+        </ul>
+      </div>
+      <div class="module-card faculty" onclick="showPage('facultyLogin')">
+        <div class="module-icon">ðŸ‘¨â€ðŸ«</div>
+        <div class="module-tag">Faculty Module</div>
+        <div class="module-title">Faculty Dashboard</div>
+        <div class="module-desc">Review all submissions, run plagiarism checks, assign marks, and provide structured feedback.</div>
+        <ul class="module-features">
+          <li>View all student submissions</li>
+          <li>Similarity / plagiarism detection</li>
+          <li>Mark entry & feedback forms</li>
+          <li>Analytics & grade distribution</li>
+          <li>Bulk evaluation tools</li>
+        </ul>
+      </div>
+      <div class="module-card admin" onclick="showPage('adminLogin')">
+        <div class="module-icon">âš™ï¸</div>
+        <div class="module-tag">Admin Module</div>
+        <div class="module-title">Admin Control Panel</div>
+        <div class="module-desc">Manage student roster, create assignments, configure portal settings, and generate reports.</div>
+        <ul class="module-features">
+          <li>Student & faculty management</li>
+          <li>Create & schedule assignments</li>
+          <li>Class-wide report generation</li>
+          <li>Similarity threshold config</li>
+          <li>Export evaluation reports</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STUDENT LOGIN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page" id="studentLogin">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">ðŸŽ“</div>
+      <div class="login-title">Student Login</div>
+      <div class="login-sub">// Enter your registration number</div>
+      <div class="alert alert-error" id="stuLoginErr">âŒ Invalid credentials. Try again.</div>
+      <div class="form-group">
+        <label class="form-label">Registration Number</label>
+        <input class="form-input" id="stuRegInput" placeholder="e.g. 351, 352 ..." type="text">
+        <div class="form-hint">Your registration number assigned by the department</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="stuPassInput" placeholder="Enter password" type="password">
+        <div class="form-hint">Default: your reg. number (e.g. 351)</div>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="stuLogin()">Login to Portal â†’</button>
+      <div class="divider">OR</div>
+      <div style="text-align:center">
+        <button class="btn btn-ghost btn-sm" onclick="showPage('home')">â† Back to Home</button>
+      </div>
+      <div style="margin-top:1.5rem; padding:1rem; background:var(--surface2); border-radius:8px; border:1px solid var(--border)">
+        <div style="font-size:0.72rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace; margin-bottom:0.5rem;">// Demo credentials</div>
+        <div style="font-size:0.78rem; color:var(--text-dim); font-family:'JetBrains Mono',monospace;">Any reg. from 351â€“367 | Password = reg. number</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• FACULTY LOGIN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page" id="facultyLogin">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div style="border-top-color:var(--accent2)" class="login-card-top"></div>
+      <div class="login-logo">ðŸ‘¨â€ðŸ«</div>
+      <div class="login-title">Faculty Login</div>
+      <div class="login-sub">// Department faculty portal access</div>
+      <div class="alert alert-error" id="facLoginErr">âŒ Invalid credentials.</div>
+      <div class="form-group">
+        <label class="form-label">Faculty ID</label>
+        <input class="form-input" id="facIdInput" placeholder="e.g. FAC001" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="facPassInput" placeholder="Enter password" type="password">
+        <div class="form-hint">Demo: FAC001 / faculty123</div>
+      </div>
+      <button class="btn btn-accent2" style="width:100%" onclick="facLogin()">Access Faculty Dashboard â†’</button>
+      <div class="divider">OR</div>
+      <div style="text-align:center"><button class="btn btn-ghost btn-sm" onclick="showPage('home')">â† Back to Home</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ADMIN LOGIN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page" id="adminLogin">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">âš™ï¸</div>
+      <div class="login-title">Admin Login</div>
+      <div class="login-sub">// System administrator access</div>
+      <div class="alert alert-error" id="adminLoginErr">âŒ Invalid credentials.</div>
+      <div class="form-group">
+        <label class="form-label">Admin Username</label>
+        <input class="form-input" id="adminUserInput" placeholder="admin" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="adminPassInput" placeholder="Enter password" type="password">
+        <div class="form-hint">Demo: admin / admin123</div>
+      </div>
+      <button class="btn btn-success" style="width:100%" onclick="adminLogin()">Access Admin Panel â†’</button>
+      <div class="divider">OR</div>
+      <div style="text-align:center"><button class="btn btn-ghost btn-sm" onclick="showPage('home')">â† Back to Home</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STUDENT DASHBOARD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page" id="studentDash">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Navigation</div>
+        <div class="sidebar-item active" onclick="stuTab('overview')" id="stab-overview"><span class="icon">ðŸ“Š</span> Overview</div>
+        <div class="sidebar-item" onclick="stuTab('upload')" id="stab-upload"><span class="icon">ðŸ“¤</span> Upload Assignment</div>
+        <div class="sidebar-item" onclick="stuTab('submissions')" id="stab-submissions"><span class="icon">ðŸ“</span> My Submissions</div>
+        <div class="sidebar-item" onclick="stuTab('marks')" id="stab-marks"><span class="icon">ðŸ…</span> Marks & Feedback</div>
+        <div class="sidebar-item" onclick="stuTab('report')" id="stab-report"><span class="icon">ðŸ“„</span> My Report</div>
+      </div>
+    </aside>
+    <main class="dash-main">
+      <!-- OVERVIEW -->
+      <div id="scont-overview">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div>
+              <h2>Welcome back, <span id="stuWelcomeName" style="color:var(--accent)">Student</span></h2>
+              <p>Reg. <span id="stuWelcomeReg">â€”</span> | Computer Science Department</p>
+            </div>
+          </div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi blue"><div class="kpi-label">Submissions</div><div class="kpi-value" id="stu-kpi-sub">0</div><div class="kpi-sub">Total uploaded</div></div>
+          <div class="kpi green"><div class="kpi-label">Graded</div><div class="kpi-value" id="stu-kpi-graded">0</div><div class="kpi-sub">Evaluated</div></div>
+          <div class="kpi gold"><div class="kpi-label">Avg Score</div><div class="kpi-value" id="stu-kpi-avg">â€”</div><div class="kpi-sub">Your average</div></div>
+          <div class="kpi purple"><div class="kpi-label">Pending</div><div class="kpi-value" id="stu-kpi-pending">0</div><div class="kpi-sub">Awaiting evaluation</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">Active Assignments <span>Due soon</span></div>
+            <div id="stuActiveAssignments"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Recent Activity <span>Last 5</span></div>
+            <div id="stuRecentActivity"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPLOAD -->
+      <div id="scont-upload" style="display:none">
+        <div class="page-header"><h2>Upload Assignment</h2><p>// Select assignment and attach your file</p></div>
+        <div class="panel" style="max-width:600px">
+          <div class="alert alert-success" id="uploadSuccessAlert">âœ… Assignment uploaded successfully!</div>
+          <div class="alert alert-error" id="uploadErrAlert">âŒ Please fill all fields and select a file.</div>
+          <div class="form-group">
+            <label class="form-label">Select Assignment</label>
+            <select class="form-select" id="uploadAssignSelect"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Assignment File</label>
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+              <div class="upload-icon">ðŸ“Ž</div>
+              <div class="upload-text">Click to browse or drag & drop</div>
+              <div class="upload-hint">PDF, DOCX, ZIP â€” max 10MB</div>
+            </div>
+            <input type="file" id="fileInput" style="display:none" accept=".pdf,.docx,.zip,.py,.java,.cpp,.txt" onchange="handleFileSelect(event)">
+            <div class="upload-file-info" id="uploadFileInfo">
+              <span>ðŸ“„</span>
+              <div>
+                <div class="upload-file-name" id="uploadFileName">â€”</div>
+                <div class="upload-file-size" id="uploadFileSize">â€”</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="clearFile()">âœ•</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Comments (Optional)</label>
+            <textarea class="form-textarea" id="uploadComments" placeholder="Any notes for your faculty..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="submitAssignment()">Submit Assignment â†’</button>
+        </div>
+      </div>
+
+      <!-- SUBMISSIONS -->
+      <div id="scont-submissions" style="display:none">
+        <div class="page-header"><div class="page-header-row"><h2>My Submissions</h2></div><p>// All your submitted assignments</p></div>
+        <div class="panel">
+          <table class="data-table">
+            <thead><tr><th>Assignment</th><th>Submitted</th><th>Status</th><th>Similarity</th><th>Score</th></tr></thead>
+            <tbody id="stuSubmissionsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MARKS -->
+      <div id="scont-marks" style="display:none">
+        <div class="page-header"><h2>Marks & Feedback</h2><p>// Evaluated submissions with faculty feedback</p></div>
+        <div id="stuMarksContainer"></div>
+      </div>
+
+      <!-- REPORT -->
+      <div id="scont-report" style="display:none">
+        <div class="page-header"><h2>My Evaluation Report</h2><p>// Complete academic performance summary</p></div>
+        <div id="stuReportContent"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• FACULTY DASHBOARD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page" id="facultyDash">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Faculty Tools</div>
+        <div class="sidebar-item active" onclick="facTab('overview')" id="ftab-overview"><span class="icon">ðŸ“Š</span> Dashboard</div>
+        <div class="sidebar-item" onclick="facTab('submissions')" id="ftab-submissions"><span class="icon">ðŸ“</span> All Submissions <div class="sidebar-badge" id="facPendingBadge">0</div></div>
+        <div class="sidebar-item" onclick="facTab('plagiarism')" id="ftab-plagiarism"><span class="icon">ðŸ”</span> Similarity Check</div>
+        <div class="sidebar-item" onclick="facTab('evaluate')" id="ftab-evaluate"><span class="icon">âœï¸</span> Evaluate</div>
+        <div class="sidebar-item" onclick="facTab('analytics')" id="ftab-analytics"><span class="icon">ðŸ“ˆ</span> Analytics</div>
+        <div class="sidebar-item" onclick="facTab('reports')" id="ftab-reports"><span class="icon">ðŸ“„</span> Reports</div>
+      </div>
+    </aside>
+    <main class="dash-main">
+      <!-- FAC OVERVIEW -->
+      <div id="fcont-overview">
+        <div class="page-header"><h2>Faculty Dashboard</h2><p>// Dr. <span id="facName">Ramesh Kumar</span> | CS Department</p></div>
+        <div class="kpi-grid">
+          <div class="kpi blue"><div class="kpi-label">Total Submissions</div><div class="kpi-value" id="fac-kpi-total">68</div><div class="kpi-sub">Across all assignments</div></div>
+          <div class="kpi gold"><div class="kpi-label">Pending</div><div class="kpi-value" id="fac-kpi-pending">3</div><div class="kpi-sub">Needs evaluation</div></div>
+          <div class="kpi green"><div class="kpi-label">Class Average</div><div class="kpi-value" id="fac-kpi-avg">74%</div><div class="kpi-sub">All graded submissions</div></div>
+          <div class="kpi red"><div class="kpi-label">Similarity Alerts</div><div class="kpi-value" id="fac-kpi-alerts">4</div><div class="kpi-sub">&gt; 40% similarity</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">Assignment Summary <span>All active</span></div>
+            <div id="facAssignSummary"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Grade Distribution <span>Current</span></div>
+            <div id="facGradeDistBar" style="margin-top:0.5rem"></div>
+            <div id="facGradeDist"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAC SUBMISSIONS -->
+      <div id="fcont-submissions" style="display:none">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div><h2>All Submissions</h2><p>// Review and manage student submissions</p></div>
+            <div class="search-wrap" style="width:240px">
+              <span class="search-icon">ðŸ”</span>
+              <input class="search-input" placeholder="Search student..." id="facSearchInput" oninput="filterFacSubs()" >
+            </div>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" onclick="filterByStatus('all',this)">All</button>
+          <button class="tab" onclick="filterByStatus('submitted',this)">Submitted</button>
+          <button class="tab" onclick="filterByStatus('graded',this)">Graded</button>
+          <button class="tab" onclick="filterByStatus('pending',this)">Pending</button>
+        </div>
+        <div class="panel" style="overflow-x:auto">
+          <table class="data-table" id="facSubsTable">
+            <thead><tr><th>Student</th><th>Reg.</th><th>Assignment</th><th>Submitted</th><th>Similarity</th><th>Status</th><th>Score</th><th>Action</th></tr></thead>
+            <tbody id="facSubsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAC PLAGIARISM -->
+      <div id="fcont-plagiarism" style="display:none">
+        <div class="page-header"><h2>Similarity Check</h2><p>// Plagiarism and similarity analysis</p></div>
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpi red"><div class="kpi-label">High (&gt;40%)</div><div class="kpi-value">4</div><div class="kpi-sub">Require review</div></div>
+          <div class="kpi gold"><div class="kpi-label">Medium (20â€“40%)</div><div class="kpi-value">9</div><div class="kpi-sub">Acceptable</div></div>
+          <div class="kpi green"><div class="kpi-label">Low (&lt;20%)</div><div class="kpi-value">55</div><div class="kpi-sub">Good originality</div></div>
+        </div>
+        <div class="panel" style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr><th>Student</th><th>Assignment</th><th>Similarity %</th><th>Risk Level</th><th>Matched With</th><th>Action</th></tr></thead>
+            <tbody id="plagTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAC EVALUATE -->
+      <div id="fcont-evaluate" style="display:none">
+        <div class="page-header"><h2>Evaluate Submission</h2><p>// Enter marks and provide feedback</p></div>
+        <div class="panel" style="max-width:640px">
+          <div class="alert alert-success" id="evalSuccessAlert">âœ… Evaluation saved successfully!</div>
+          <div class="form-group">
+            <label class="form-label">Select Submission</label>
+            <select class="form-select" id="evalSubSelect" onchange="loadEvalForm()"></select>
+          </div>
+          <div id="evalFormContent" style="display:none">
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Marks Awarded</label>
+                <input class="form-input" id="evalMarks" type="number" min="0" max="100" placeholder="0â€“100">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Max Marks</label>
+                <input class="form-input" id="evalMax" type="number" value="100" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Grade</label>
+              <select class="form-select" id="evalGrade">
+                <option value="O">O â€” Outstanding (90â€“100)</option>
+                <option value="A+">A+ â€” Excellent (80â€“89)</option>
+                <option value="A">A â€” Very Good (70â€“79)</option>
+                <option value="B+">B+ â€” Good (60â€“69)</option>
+                <option value="B">B â€” Average (50â€“59)</option>
+                <option value="C">C â€” Below Average (40â€“49)</option>
+                <option value="F">F â€” Fail (&lt;40)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Feedback</label>
+              <textarea class="form-textarea" id="evalFeedback" placeholder="Provide detailed feedback for the student..." style="min-height:150px"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Similarity Override</label>
+              <input class="form-input" id="evalSim" type="number" min="0" max="100" placeholder="Auto-detected %">
+              <div class="form-hint">Leave blank to use auto-detected value</div>
+            </div>
+            <button class="btn btn-accent2" onclick="saveEvaluation()">Save Evaluation â†’</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAC ANALYTICS -->
+      <div id="fcont-analytics" style="display:none">
+        <div class="page-header"><h2>Analytics</h2><p>// Class performance insights</p></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">Top Performers</div>
+            <div id="facTopPerformers"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Score Distribution</div>
+            <div id="facScoreDist"></div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:1.5rem">
+          <div class="panel-title">Assignment-wise Averages</div>
+          <div id="facAssignAverages"></div>
+        </div>
+      </div>
+
+      <!-- FAC REPORTS -->
+      <div id="fcont-reports" style="display:none">
+        <div class="page-header"><h2>Evaluation Reports</h2><p>// Complete student evaluation reports</p></div>
+        <div id="facReportsContent"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ADMIN DASHBOARD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page" id="adminDash">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Admin Panel</div>
+        <div class="sidebar-item active" onclick="adminTab('overview')" id="atab-overview"><span class="icon">ðŸ“Š</span> Overview</div>
+        <div class="sidebar-item" onclick="adminTab('students')" id="atab-students"><span class="icon">ðŸ‘¥</span> Manage Students</div>
+        <div class="sidebar-item" onclick="adminTab('assignments')" id="atab-assignments"><span class="icon">ðŸ“‹</span> Manage Assignments</div>
+        <div class="sidebar-item" onclick="adminTab('faculty')" id="atab-faculty"><span class="icon">ðŸ‘¨â€ðŸ«</span> Manage Faculty</div>
+        <div class="sidebar-item" onclick="adminTab('reports')" id="atab-reports"><span class="icon">ðŸ“„</span> All Reports</div>
+        <div class="sidebar-item" onclick="adminTab('settings')" id="atab-settings"><span class="icon">âš™ï¸</span> Settings</div>
+      </div>
+    </aside>
+    <main class="dash-main">
+      <!-- ADMIN OVERVIEW -->
+      <div id="acont-overview">
+        <div class="page-header"><h2>Admin Control Panel</h2><p>// System administrator â€” full access</p></div>
+        <div class="kpi-grid">
+          <div class="kpi blue"><div class="kpi-label">Students</div><div class="kpi-value">17</div><div class="kpi-sub">Enrolled</div></div>
+          <div class="kpi purple"><div class="kpi-label">Faculty</div><div class="kpi-value">3</div><div class="kpi-sub">Active</div></div>
+          <div class="kpi green"><div class="kpi-label">Assignments</div><div class="kpi-value">5</div><div class="kpi-sub">Total created</div></div>
+          <div class="kpi gold"><div class="kpi-label">Submissions</div><div class="kpi-value">68</div><div class="kpi-sub">All time</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">System Status</div>
+            <div id="adminSysStatus"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Recent Admin Actions</div>
+            <div id="adminRecentActions"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN STUDENTS -->
+      <div id="acont-students" style="display:none">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div><h2>Manage Students</h2><p>// All enrolled students</p></div>
+            <button class="btn btn-primary btn-sm" onclick="openAddStudentModal()">+ Add Student</button>
+          </div>
+        </div>
+        <div class="panel" style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr><th>Reg.</th><th>Name</th><th>Email</th><th>Submissions</th><th>Avg Score</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="adminStudentsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN ASSIGNMENTS -->
+      <div id="acont-assignments" style="display:none">
+        <div class="page-header">
+          <div class="page-header-row">
+            <div><h2>Manage Assignments</h2><p>// Create and manage assignments</p></div>
+            <button class="btn btn-primary btn-sm" onclick="openCreateAssignModal()">+ Create Assignment</button>
+          </div>
+        </div>
+        <div class="panel" style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr><th>ID</th><th>Title</th><th>Subject</th><th>Due Date</th><th>Max Marks</th><th>Submissions</th><th>Avg</th><th>Action</th></tr></thead>
+            <tbody id="adminAssignBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN FACULTY -->
+      <div id="acont-faculty" style="display:none">
+        <div class="page-header"><h2>Manage Faculty</h2><p>// Faculty members</p></div>
+        <div class="panel">
+          <table class="data-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Dept.</th><th>Email</th><th>Assigned Courses</th><th>Status</th></tr></thead>
+            <tbody id="adminFacultyBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADMIN REPORTS -->
+      <div id="acont-reports" style="display:none">
+        <div class="page-header"><h2>All Reports</h2><p>// System-wide evaluation reports</p></div>
+        <div id="adminReportsContent"></div>
+      </div>
+
+      <!-- ADMIN SETTINGS -->
+      <div id="acont-settings" style="display:none">
+        <div class="page-header"><h2>Settings</h2><p>// Portal configuration</p></div>
+        <div class="panel" style="max-width:560px">
+          <div class="form-group">
+            <label class="form-label">Plagiarism Alert Threshold (%)</label>
+            <input class="form-input" type="number" value="40" min="10" max="90">
+            <div class="form-hint">Submissions above this % will be flagged</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Max File Size (MB)</label>
+            <input class="form-input" type="number" value="10" min="1" max="50">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Allowed File Types</label>
+            <input class="form-input" type="text" value=".pdf, .docx, .zip, .py, .java, .cpp">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Department Name</label>
+            <input class="form-input" type="text" value="Computer Science & Engineering">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Academic Year</label>
+            <input class="form-input" type="text" value="2024â€“2025">
+          </div>
+          <button class="btn btn-success" onclick="showToast('Settings saved!','success')">Save Settings</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DB SCHEMA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page" id="dbSchema">
+  <div style="max-width:1100px; margin:0 auto; padding:100px 2rem 3rem">
+    <div class="page-header">
+      <h2>MySQL Database Schema</h2>
+      <p>// Backend: Node.js + Express + MySQL2 | REST API architecture</p>
+    </div>
+
+    <div class="grid-2" style="gap:1.5rem; margin-bottom:1.5rem">
+      <div class="panel">
+        <div class="panel-title">students</div>
+        <div class="schema-table">
+          <div class="schema-cols">
+            <div class="schema-col"><span class="schema-col-name pk">student_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK, AUTO_INCREMENT</span></div>
+            <div class="schema-col"><span class="schema-col-name">reg_number</span><span class="schema-col-type">VARCHAR(10)</span><span class="schema-col-note">UNIQUE, e.g. 351</span></div>
+            <div class="schema-col"><span class="schema-col-name">full_name</span><span class="schema-col-type">VARCHAR(100)</span><span class="schema-col-note">NOT NULL</span></div>
+            <div class="schema-col"><span class="schema-col-name">email</span><span class="schema-col-type">VARCHAR(150)</span><span class="schema-col-note">UNIQUE</span></div>
+            <div class="schema-col"><span class="schema-col-name">password_hash</span><span class="schema-col-type">VARCHAR(255)</span><span class="schema-col-note">bcrypt hashed</span></div>
+            <div class="schema-col"><span class="schema-col-name">batch</span><span class="schema-col-type">VARCHAR(20)</span><span class="schema-col-note">e.g. 2022â€“26</span></div>
+            <div class="schema-col"><span class="schema-col-name">status</span><span class="schema-col-type">ENUM</span><span class="schema-col-note">active/inactive</span></div>
+            <div class="schema-col"><span class="schema-col-name">created_at</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">DEFAULT NOW()</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">faculty</div>
+        <div class="schema-table">
+          <div class="schema-cols">
+            <div class="schema-col"><span class="schema-col-name pk">faculty_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK, AUTO_INCREMENT</span></div>
+            <div class="schema-col"><span class="schema-col-name">faculty_code</span><span class="schema-col-type">VARCHAR(20)</span><span class="schema-col-note">UNIQUE e.g. FAC001</span></div>
+            <div class="schema-col"><span class="schema-col-name">full_name</span><span class="schema-col-type">VARCHAR(100)</span><span class="schema-col-note">NOT NULL</span></div>
+            <div class="schema-col"><span class="schema-col-name">email</span><span class="schema-col-type">VARCHAR(150)</span><span class="schema-col-note">UNIQUE</span></div>
+            <div class="schema-col"><span class="schema-col-name">password_hash</span><span class="schema-col-type">VARCHAR(255)</span><span class="schema-col-note">bcrypt</span></div>
+            <div class="schema-col"><span class="schema-col-name">department</span><span class="schema-col-type">VARCHAR(80)</span><span class="schema-col-note">NOT NULL</span></div>
+            <div class="schema-col"><span class="schema-col-name">status</span><span class="schema-col-type">ENUM</span><span class="schema-col-note">active/inactive</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">assignments</div>
+        <div class="schema-table">
+          <div class="schema-cols">
+            <div class="schema-col"><span class="schema-col-name pk">assignment_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK</span></div>
+            <div class="schema-col"><span class="schema-col-name">title</span><span class="schema-col-type">VARCHAR(200)</span><span class="schema-col-note">NOT NULL</span></div>
+            <div class="schema-col"><span class="schema-col-name">description</span><span class="schema-col-type">TEXT</span><span class="schema-col-note">Details</span></div>
+            <div class="schema-col"><span class="schema-col-name">subject</span><span class="schema-col-type">VARCHAR(100)</span><span class="schema-col-note">Course name</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">faculty_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ faculty</span></div>
+            <div class="schema-col"><span class="schema-col-name">due_date</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">Deadline</span></div>
+            <div class="schema-col"><span class="schema-col-name">max_marks</span><span class="schema-col-type">INT</span><span class="schema-col-note">DEFAULT 100</span></div>
+            <div class="schema-col"><span class="schema-col-name">status</span><span class="schema-col-type">ENUM</span><span class="schema-col-note">active/closed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">submissions</div>
+        <div class="schema-table">
+          <div class="schema-cols">
+            <div class="schema-col"><span class="schema-col-name pk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">student_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ students</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">assignment_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ assignments</span></div>
+            <div class="schema-col"><span class="schema-col-name">file_path</span><span class="schema-col-type">VARCHAR(500)</span><span class="schema-col-note">Stored file path</span></div>
+            <div class="schema-col"><span class="schema-col-name">file_name</span><span class="schema-col-type">VARCHAR(255)</span><span class="schema-col-note">Original filename</span></div>
+            <div class="schema-col"><span class="schema-col-name">submitted_at</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">Timestamp</span></div>
+            <div class="schema-col"><span class="schema-col-name">is_late</span><span class="schema-col-type">TINYINT(1)</span><span class="schema-col-note">0/1</span></div>
+            <div class="schema-col"><span class="schema-col-name">similarity_pct</span><span class="schema-col-type">DECIMAL(5,2)</span><span class="schema-col-note">0.00â€“100.00</span></div>
+            <div class="schema-col"><span class="schema-col-name">status</span><span class="schema-col-type">ENUM</span><span class="schema-col-note">submitted/graded</span></div>
+            <div class="schema-col"><span class="schema-col-name">comments</span><span class="schema-col-type">TEXT</span><span class="schema-col-note">Student comments</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">evaluations</div>
+        <div class="schema-table">
+          <div class="schema-cols">
+            <div class="schema-col"><span class="schema-col-name pk">eval_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ submissions</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">faculty_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ faculty</span></div>
+            <div class="schema-col"><span class="schema-col-name">marks</span><span class="schema-col-type">INT</span><span class="schema-col-note">Marks awarded</span></div>
+            <div class="schema-col"><span class="schema-col-name">grade</span><span class="schema-col-type">VARCHAR(5)</span><span class="schema-col-note">O/A+/A/B+...</span></div>
+            <div class="schema-col"><span class="schema-col-name">feedback</span><span class="schema-col-type">TEXT</span><span class="schema-col-note">Faculty feedback</span></div>
+            <div class="schema-col"><span class="schema-col-name">evaluated_at</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">Timestamp</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">plagiarism_logs</div>
+        <div class="schema-table">
+          <div class="schema-cols">
+            <div class="schema-col"><span class="schema-col-name pk">log_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ submissions</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">matched_submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ submissions</span></div>
+            <div class="schema-col"><span class="schema-col-name">similarity_pct</span><span class="schema-col-type">DECIMAL(5,2)</span><span class="schema-col-note">Match %</span></div>
+            <div class="schema-col"><span class="schema-col-name">checked_at</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">When checked</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Node.js + Express Backend â€” API Endpoints</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; line-height:2.2; color:var(--text-dim)">
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/auth/student/login</span>       â€” Authenticate student</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/auth/faculty/login</span>       â€” Authenticate faculty</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/students</span>                 â€” List all students (admin)</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/students</span>                 â€” Add student (admin)</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/assignments</span>              â€” Get all assignments</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/assignments</span>              â€” Create assignment</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/submissions/upload</span>       â€” Upload submission (multipart)</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/submissions/:studentId</span>   â€” Student's submissions</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/submissions/all</span>          â€” All submissions (faculty)</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/evaluations</span>              â€” Save evaluation</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/evaluations/:studentId</span>   â€” Student evaluations</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/plagiarism/:assignmentId</span> â€” Similarity results</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/reports/class</span>            â€” Class-wide report</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/reports/student/:id</span>      â€” Individual report</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem; text-align:center">
+      <button class="btn btn-ghost" onclick="showPage('home')">â† Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="evalModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Evaluate Submission</div>
+      <button class="modal-close" onclick="closeModal('evalModal')">âœ•</button>
+    </div>
+    <div class="modal-body">
+      <div id="evalModalStudentInfo" style="margin-bottom:1.25rem"></div>
+      <div class="grid-2">
+        <div class="form-group"><label class="form-label">Marks (0â€“100)</label><input class="form-input" id="modalMarks" type="number" min="0" max="100"></div>
+        <div class="form-group"><label class="form-label">Grade</label><select class="form-select" id="modalGrade"><option>O</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>F</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Feedback</label><textarea class="form-textarea" id="modalFeedback" placeholder="Write detailed feedback..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('evalModal')">Cancel</button>
+      <button class="btn btn-accent2 btn-sm" onclick="saveModalEval()">Save Evaluation</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addStudentModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Student</div>
+      <button class="modal-close" onclick="closeModal('addStudentModal')">âœ•</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Registration Number</label><input class="form-input" id="newStuReg" placeholder="e.g. 368"></div>
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="newStuName" placeholder="Student name"></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="newStuEmail" type="email" placeholder="student@college.edu"></div>
+      <div class="form-group"><label class="form-label">Batch</label><input class="form-input" id="newStuBatch" value="2022â€“2026"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('addStudentModal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="addStudent()">Add Student</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="createAssignModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Create Assignment</div>
+      <button class="modal-close" onclick="closeModal('createAssignModal')">âœ•</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="newAssignTitle" placeholder="Assignment title"></div>
+      <div class="form-group"><label class="form-label">Subject</label><input class="form-input" id="newAssignSubject" placeholder="e.g. Data Structures"></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="newAssignDesc" placeholder="Assignment details..."></textarea></div>
+      <div class="grid-2">
+        <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" id="newAssignDue" type="date"></div>
+        <div class="form-group"><label class="form-label">Max Marks</label><input class="form-input" id="newAssignMax" type="number" value="100"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('createAssignModal')">Cancel</button>
+      <button class="btn btn-success btn-sm" onclick="createAssignment()">Create Assignment</button>
+    </div>
+  </div>
+</div>
+
+<script>// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  CS Assignment Portal â€” app.js
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+// â”€â”€ DATA STORE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const students = [
+  { id:1, reg:'351', name:'Jahnavi Reddy',   email:'jahnavi@csed.edu',   batch:'2022â€“26', status:'active', password:'351' },
+  { id:2, reg:'352', name:'Vindhya Sharma',  email:'vindhya@csed.edu',   batch:'2022â€“26', status:'active', password:'352' },
+  { id:3, reg:'353', name:'Ravi Kumar',       email:'ravi@csed.edu',      batch:'2022â€“26', status:'active', password:'353' },
+  { id:4, reg:'354', name:'Govardhan Pillai', email:'govardhan@csed.edu', batch:'2022â€“26', status:'active', password:'354' },
+  { id:5, reg:'355', name:'Dumku Srinivas',  email:'dumku@csed.edu',     batch:'2022â€“26', status:'active', password:'355' },
+  { id:6, reg:'356', name:'Kutty Nair',       email:'kutty@csed.edu',     batch:'2022â€“26', status:'active', password:'356' },
+  { id:7, reg:'357', name:'Jyo Patel',        email:'jyo@csed.edu',       batch:'2022â€“26', status:'active', password:'357' },
+  { id:8, reg:'358', name:'Appus Verma',      email:'appus@csed.edu',     batch:'2022â€“26', status:'active', password:'358' },
+  { id:9, reg:'359', name:'Anju Menon',       email:'anju@csed.edu',      batch:'2022â€“26', status:'active', password:'359' },
+  { id:10,reg:'360', name:'Baavan Das',       email:'baavan@csed.edu',    batch:'2022â€“26', status:'active', password:'360' },
+  { id:11,reg:'361', name:'Saketh Rao',       email:'saketh@csed.edu',    batch:'2022â€“26', status:'active', password:'361' },
+  { id:12,reg:'362', name:'Priya Lakshmi',   email:'priya@csed.edu',     batch:'2022â€“26', status:'active', password:'362' },
+  { id:13,reg:'363', name:'Akash Mohan',     email:'akash@csed.edu',     batch:'2022â€“26', status:'active', password:'363' },
+  { id:14,reg:'364', name:'Deepika Iyer',    email:'deepika@csed.edu',   batch:'2022â€“26', status:'active', password:'364' },
+  { id:15,reg:'365', name:'Harish Chandra',  email:'harish@csed.edu',    batch:'2022â€“26', status:'active', password:'365' },
+  { id:16,reg:'366', name:'Nithya Balaji',   email:'nithya@csed.edu',    batch:'2022â€“26', status:'active', password:'366' },
+  { id:17,reg:'367', name:'Sujith Krishnan', email:'sujith@csed.edu',    batch:'2022â€“26', status:'active', password:'367' },
+];
+
+const faculty = [
+  { id:1, code:'FAC001', name:'Dr. Ramesh Kumar',   dept:'CSE', email:'ramesh@csed.edu',   password:'faculty123' },
+  { id:2, code:'FAC002', name:'Prof. Meena Devi',   dept:'CSE', email:'meena@csed.edu',    password:'faculty123' },
+  { id:3, code:'FAC003', name:'Dr. Suresh Babu',    dept:'CSE', email:'suresh@csed.edu',   password:'faculty123' },
+];
+
+const assignments = [
+  { id:1, title:'Data Structures â€” Linked List Implementation', subject:'Data Structures', faculty_id:1, due:'2025-02-15', max:100, status:'active', desc:'Implement singly, doubly and circular linked lists in C++ with all operations.' },
+  { id:2, title:'Operating Systems â€” Process Scheduling', subject:'Operating Systems', faculty_id:2, due:'2025-02-20', max:100, status:'active', desc:'Simulate FCFS, SJF, Round Robin and Priority scheduling algorithms.' },
+  { id:3, title:'DBMS â€” ER Diagram & SQL Queries', subject:'Database Management', faculty_id:1, due:'2025-03-01', max:100, status:'active', desc:'Design ER diagram for a hospital management system and write 20 SQL queries.' },
+  { id:4, title:'Computer Networks â€” Socket Programming', subject:'Computer Networks', faculty_id:3, due:'2025-03-10', max:100, status:'active', desc:'Implement a simple HTTP server using TCP sockets in Python.' },
+  { id:5, title:'Machine Learning â€” Regression Analysis', subject:'Machine Learning', faculty_id:2, due:'2025-03-20', max:100, status:'active', desc:'Apply linear & polynomial regression on a provided dataset and analyze results.' },
+];
+
+// Generate realistic submissions
+const submissions = [];
+let subId = 1;
+const simPcts = [8,12,15,18,22,28,35,42,48,55,7,14,19,25,31,38,11];
+students.forEach((stu, si) => {
+  assignments.forEach((a, ai) => {
+    if (Math.random() > 0.2) { // 80% submit
+      const daysAgo = Math.floor(Math.random() * 10) + 1;
+      const sim = simPcts[(si + ai * 3) % simPcts.length] + Math.floor(Math.random()*5);
+      const isLate = Math.random() > 0.85;
+      const graded = Math.random() > 0.15;
+      submissions.push({
+        id: subId++,
+        student_id: stu.id,
+        assignment_id: a.id,
+        file_name: `${stu.name.split(' ')[0].toLowerCase()}_${a.subject.replace(/\s+/g,'_').toLowerCase()}.pdf`,
+        submitted_at: new Date(Date.now() - daysAgo*86400000).toISOString(),
+        is_late: isLate ? 1 : 0,
+        similarity_pct: sim,
+        status: graded ? 'graded' : 'submitted',
+        comments: '',
+      });
+    }
+  });
+});
+
+// Generate evaluations for graded submissions
+const evaluations = [];
+let evalId = 1;
+const feedbacks = [
+  'Excellent implementation! Code is clean and well-commented. Edge cases are handled properly.',
+  'Good work overall. Minor issues with time complexity analysis. Please revise the documentation.',
+  'Satisfactory submission. The core logic is correct but code organization needs improvement.',
+  'Well-structured solution. Algorithm choice is optimal. Presentation could be more detailed.',
+  'Average performance. The main concept is understood but execution has several bugs.',
+  'Outstanding work! Creative approach and thorough analysis. Keep it up!',
+  'Needs improvement. Several logical errors in the implementation. Please recheck the requirements.',
+  'Good effort! The report is comprehensive. Code could benefit from more comments.',
+  'Solid submission. Test cases are thorough. Minor inefficiency in the sorting algorithm.',
+  'Very good! The solution handles all edge cases. Well-structured code and documentation.',
+];
+const scoreRanges = [[88,98],[75,87],[62,74],[50,61],[38,49]];
+submissions.forEach(sub => {
+  if (sub.status === 'graded') {
+    const stu = students.find(s => s.id === sub.student_id);
+    const baseScore = (parseInt(stu.reg) % 5);
+    const range = scoreRanges[baseScore];
+    const marks = range[0] + Math.floor(Math.random() * (range[1]-range[0]+1));
+    const grade = marks >= 90 ? 'O' : marks >= 80 ? 'A+' : marks >= 70 ? 'A' : marks >= 60 ? 'B+' : marks >= 50 ? 'B' : marks >= 40 ? 'C' : 'F';
+    evaluations.push({
+      id: evalId++,
+      submission_id: sub.id,
+      faculty_id: assignments.find(a=>a.id===sub.assignment_id)?.faculty_id || 1,
+      marks,
+      grade,
+      feedback: feedbacks[Math.floor(Math.random()*feedbacks.length)],
+      evaluated_at: new Date(Date.now() - Math.floor(Math.random()*5)*86400000).toISOString(),
+    });
+  }
+});
+
+// â”€â”€ STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+let currentUser = null;
+let currentRole = null;
+let selectedSubId = null;
+let uploadedFile = null;
+let activeStatusFilter = 'all';
+
+// â”€â”€ ROUTING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// â”€â”€ AUTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function stuLogin() {
+  const reg = document.getElementById('stuRegInput').value.trim();
+  const pass = document.getElementById('stuPassInput').value.trim();
+  const stu = students.find(s => s.reg === reg && s.password === pass);
+  if (!stu) { showAlert('stuLoginErr'); return; }
+  currentUser = stu; currentRole = 'student';
+  showNavUser(stu.name.split(' ')[0], 'S');
+  loadStudentDash();
+  showPage('studentDash');
+}
+
+function facLogin() {
+  const code = document.getElementById('facIdInput').value.trim();
+  const pass = document.getElementById('facPassInput').value.trim();
+  const fac = faculty.find(f => f.code === code && f.password === pass);
+  if (!fac) { showAlert('facLoginErr'); return; }
+  currentUser = fac; currentRole = 'faculty';
+  showNavUser(fac.name.split(' ').slice(-1)[0], 'F');
+  loadFacultyDash();
+  showPage('facultyDash');
+}
+
+function adminLogin() {
+  const u = document.getElementById('adminUserInput').value.trim();
+  const p = document.getElementById('adminPassInput').value.trim();
+  if (u !== 'admin' || p !== 'admin123') { showAlert('adminLoginErr'); return; }
+  currentUser = { name:'System Admin', role:'admin' }; currentRole = 'admin';
+  showNavUser('Admin', 'A');
+  loadAdminDash();
+  showPage('adminDash');
+}
+
+function logout() {
+  currentUser = null; currentRole = null;
+  document.getElementById('navUser').classList.remove('visible');
+  document.getElementById('navLinks').style.display = 'flex';
+  showPage('home');
+}
+
+function showNavUser(name, initial) {
+  document.getElementById('navAvatar').textContent = initial;
+  document.getElementById('navName').textContent = name;
+  document.getElementById('navUser').classList.add('visible');
+  document.getElementById('navLinks').style.display = 'none';
+}
+
+// â”€â”€ UTILS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function showAlert(id, hide=false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList[hide?'remove':'add']('visible');
+  if (!hide) setTimeout(() => el.classList.remove('visible'), 3500);
+}
+
+function showToast(msg, type='info') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast toast-${type}`;
+  t.innerHTML = (type==='success'?'âœ“ ':type==='error'?'âœ• ':'â„¹ ') + msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function fmtDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function simClass(pct) {
+  if (pct >= 40) return 'sim-high';
+  if (pct >= 20) return 'sim-med';
+  return 'sim-low';
+}
+
+function simBadge(pct) {
+  if (pct >= 40) return 'badge-high';
+  if (pct >= 20) return 'badge-medium';
+  return 'badge-low';
+}
+
+function simLabel(pct) {
+  if (pct >= 40) return 'High';
+  if (pct >= 20) return 'Medium';
+  return 'Low';
+}
+
+function getStudentSubs(stuId) { return submissions.filter(s => s.student_id === stuId); }
+function getSubEval(subId) { return evaluations.find(e => e.submission_id === subId); }
+function getStudentEvals(stuId) {
+  const subs = getStudentSubs(stuId);
+  return subs.map(s => ({ sub: s, eval: getSubEval(s.id) })).filter(x => x.eval);
+}
+
+function calcAvg(stuId) {
+  const evals = getStudentEvals(stuId);
+  if (!evals.length) return null;
+  return Math.round(evals.reduce((s,e) => s + e.eval.marks, 0) / evals.length);
+}
+
+function getAssign(id) { return assignments.find(a => a.id === id); }
+function getStudent(id) { return students.find(s => s.id === id); }
+
+// â”€â”€ STUDENT DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function loadStudentDash() {
+  const stu = currentUser;
+  document.getElementById('stuWelcomeName').textContent = stu.name.split(' ')[0];
+  document.getElementById('stuWelcomeReg').textContent = stu.reg;
+
+  const subs = getStudentSubs(stu.id);
+  const graded = subs.filter(s => s.status === 'graded');
+  const pending = subs.filter(s => s.status !== 'graded');
+  const avg = calcAvg(stu.id);
+
+  document.getElementById('stu-kpi-sub').textContent = subs.length;
+  document.getElementById('stu-kpi-graded').textContent = graded.length;
+  document.getElementById('stu-kpi-avg').textContent = avg ? avg + '%' : 'â€”';
+  document.getElementById('stu-kpi-pending').textContent = pending.length;
+
+  // Active assignments
+  const aa = document.getElementById('stuActiveAssignments');
+  aa.innerHTML = assignments.map(a => {
+    const mySub = subs.find(s => s.assignment_id === a.id);
+    return `<div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1">
+        <div style="font-size:0.82rem;font-weight:600">${a.title.substring(0,45)}...</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-top:2px">${a.subject} | Due: ${a.due}</div>
+      </div>
+      ${mySub ? `<span class="badge badge-${mySub.status==='graded'?'graded':'submitted'}">${mySub.status}</span>` : `<button class="btn btn-primary btn-sm" onclick="stuTab('upload')">Submit</button>`}
+    </div>`;
+  }).join('');
+
+  // Recent activity
+  const ra = document.getElementById('stuRecentActivity');
+  ra.innerHTML = subs.slice(-5).reverse().map(s => {
+    const a = getAssign(s.assignment_id);
+    return `<div style="display:flex;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--border);align-items:flex-start">
+      <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:5px;flex-shrink:0"></div>
+      <div>
+        <div style="font-size:0.8rem">${a?.subject || 'â€”'}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${fmtDate(s.submitted_at)} ${s.is_late?'<span style="color:var(--warn)">(Late)</span>':''}</div>
+      </div>
+      <span class="badge badge-${s.status==='graded'?'graded':'submitted'}" style="margin-left:auto">${s.status}</span>
+    </div>`;
+  }).join('') || '<div style="color:var(--text-muted);font-size:0.82rem;padding:1rem 0">No submissions yet.</div>';
+
+  // Upload select
+  const sel = document.getElementById('uploadAssignSelect');
+  sel.innerHTML = assignments.map(a => `<option value="${a.id}">${a.title}</option>`).join('');
+
+  // Populate submissions table
+  renderStuSubmissions();
+  renderStuMarks();
+  renderStuReport();
+}
+
+function stuTab(tab) {
+  ['overview','upload','submissions','marks','report'].forEach(t => {
+    document.getElementById(`scont-${t}`).style.display = t === tab ? 'block' : 'none';
+    document.getElementById(`stab-${t}`).classList[t===tab?'add':'remove']('active');
+  });
+}
+
+function renderStuSubmissions() {
+  const tbody = document.getElementById('stuSubmissionsTable');
+  const subs = getStudentSubs(currentUser.id);
+  if (!subs.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem">No submissions yet</td></tr>'; return; }
+  tbody.innerHTML = subs.map(s => {
+    const a = getAssign(s.assignment_id);
+    const ev = getSubEval(s.id);
+    return `<tr>
+      <td><div style="font-weight:600;font-size:0.82rem">${a?.title.substring(0,40)}...</div><div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${s.file_name}</div></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem">${fmtDate(s.submitted_at)}</td>
+      <td><span class="badge badge-${s.status==='graded'?'graded':s.is_late?'late':'submitted'}">${s.is_late&&s.status!=='graded'?'Late':s.status}</span></td>
+      <td><span class="sim-pct ${simClass(s.similarity_pct)}">${s.similarity_pct}%</span></td>
+      <td>${ev ? `<div class="score-display"><span class="score-num">${ev.marks}</span><span class="score-denom">/100</span></div>` : '<span style="color:var(--text-muted);font-size:0.78rem">Pending</span>'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderStuMarks() {
+  const cont = document.getElementById('stuMarksContainer');
+  const evals = getStudentEvals(currentUser.id);
+  if (!evals.length) { cont.innerHTML = '<div class="panel" style="color:var(--text-muted);text-align:center;padding:3rem">No evaluations yet. Submissions are pending review.</div>'; return; }
+  cont.innerHTML = evals.map(({sub, eval:ev}) => {
+    const a = getAssign(sub.assignment_id);
+    const pct = ev.marks;
+    const ringClass = pct >= 70 ? 'high' : pct >= 50 ? 'mid' : 'low';
+    return `<div class="panel" style="margin-bottom:1.25rem">
+      <div style="display:flex;align-items:flex-start;gap:1.5rem">
+        <div class="marks-ring ${ringClass}">${ev.marks}</div>
+        <div style="flex:1">
+          <div style="font-size:0.95rem;font-weight:700;margin-bottom:0.25rem">${a?.title}</div>
+          <div style="font-size:0.72rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-bottom:0.75rem">${a?.subject} | Evaluated: ${fmtDate(ev.evaluated_at)} | Grade: <span style="color:var(--accent)">${ev.grade}</span></div>
+          <div style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-bottom:0.4rem">FACULTY FEEDBACK</div>
+          <div class="feedback-box">${ev.feedback}</div>
+          <div style="display:flex;gap:1rem;margin-top:0.75rem">
+            <div style="font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted)">Similarity: <span class="${simClass(sub.similarity_pct)}">${sub.similarity_pct}%</span></div>
+            <div style="font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted)">${sub.is_late?'âš  Late submission':''}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderStuReport() {
+  const cont = document.getElementById('stuReportContent');
+  const stu = currentUser;
+  const evals = getStudentEvals(stu.id);
+  const avg = calcAvg(stu.id);
+  const subs = getStudentSubs(stu.id);
+
+  cont.innerHTML = `
+    <div class="report-student-card">
+      <div class="student-avatar-lg">${stu.name.charAt(0)}</div>
+      <div class="student-info">
+        <h4>${stu.name}</h4>
+        <p>Reg. ${stu.reg} | ${stu.batch} | ${stu.email}</p>
+        <p style="margin-top:4px">Computer Science & Engineering Department</p>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-size:2rem;font-weight:800;color:var(--accent)">${avg || 'â€”'}%</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">Overall Average</div>
+      </div>
+    </div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi blue"><div class="kpi-label">Assignments Submitted</div><div class="kpi-value">${subs.length}</div><div class="kpi-sub">Out of ${assignments.length}</div></div>
+      <div class="kpi green"><div class="kpi-label">Evaluated</div><div class="kpi-value">${evals.length}</div><div class="kpi-sub">Graded by faculty</div></div>
+      <div class="kpi gold"><div class="kpi-label">Late Submissions</div><div class="kpi-value">${subs.filter(s=>s.is_late).length}</div><div class="kpi-sub">Total</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Assignment-wise Performance</div>
+      <table class="data-table">
+        <thead><tr><th>Assignment</th><th>Subject</th><th>Submitted</th><th>Similarity</th><th>Marks</th><th>Grade</th></tr></thead>
+        <tbody>
+        ${assignments.map(a => {
+          const sub = subs.find(s => s.assignment_id === a.id);
+          const ev = sub ? getSubEval(sub.id) : null;
+          return `<tr>
+            <td style="font-size:0.8rem">${a.title.substring(0,40)}...</td>
+            <td style="font-size:0.78rem;color:var(--text-dim)">${a.subject}</td>
+            <td>${sub ? `<span class="badge badge-submitted">Yes</span>` : '<span class="badge badge-pending">Not submitted</span>'}</td>
+            <td>${sub ? `<span class="${simClass(sub.similarity_pct)}" style="font-family:monospace">${sub.similarity_pct}%</span>` : 'â€”'}</td>
+            <td>${ev ? `<strong>${ev.marks}/100</strong>` : sub ? '<span style="color:var(--gold);font-size:0.78rem">Pending</span>' : 'â€”'}</td>
+            <td>${ev ? `<span class="badge badge-graded">${ev.grade}</span>` : 'â€”'}</td>
+          </tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// File upload
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+  if (file) setUploadFile(file);
+}
+function handleDrop(event) {
+  event.preventDefault();
+  document.getElementById('uploadZone').classList.remove('drag');
+  const file = event.dataTransfer.files[0];
+  if (file) setUploadFile(file);
+}
+function setUploadFile(file) {
+  uploadedFile = file;
+  document.getElementById('uploadFileName').textContent = file.name;
+  document.getElementById('uploadFileSize').textContent = (file.size/1024).toFixed(1) + ' KB';
+  document.getElementById('uploadFileInfo').classList.add('show');
+}
+function clearFile() {
+  uploadedFile = null;
+  document.getElementById('uploadFileInfo').classList.remove('show');
+  document.getElementById('fileInput').value = '';
+}
+
+function submitAssignment() {
+  const assignId = parseInt(document.getElementById('uploadAssignSelect').value);
+  if (!uploadedFile) { showAlert('uploadErrAlert'); return; }
+  const sim = 5 + Math.floor(Math.random() * 45);
+  const now = new Date().toISOString();
+  submissions.push({
+    id: subId++,
+    student_id: currentUser.id,
+    assignment_id: assignId,
+    file_name: uploadedFile.name,
+    submitted_at: now,
+    is_late: 0,
+    similarity_pct: sim,
+    status: 'submitted',
+    comments: document.getElementById('uploadComments').value,
+  });
+  clearFile();
+  document.getElementById('uploadComments').value = '';
+  showAlert('uploadSuccessAlert');
+  showToast('Assignment uploaded successfully!', 'success');
+  renderStuSubmissions();
+  loadStudentDash();
+}
+
+// â”€â”€ FACULTY DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function loadFacultyDash() {
+  document.getElementById('facName').textContent = currentUser.name;
+  const pending = submissions.filter(s=>s.status!=='graded').length;
+  document.getElementById('fac-kpi-pending').textContent = pending;
+  document.getElementById('facPendingBadge').textContent = pending;
+
+  // Assignment summary
+  const as = document.getElementById('facAssignSummary');
+  as.innerHTML = assignments.map(a => {
+    const subs = submissions.filter(s=>s.assignment_id===a.id);
+    const graded = subs.filter(s=>s.status==='graded').length;
+    const pct = subs.length ? Math.round(graded/subs.length*100) : 0;
+    return `<div style="margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem">
+        <div style="font-size:0.8rem;font-weight:600">${a.title.substring(0,38)}...</div>
+        <div style="font-size:0.75rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace">${graded}/${subs.length}</div>
+      </div>
+      <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+
+  // Grade distribution
+  const allEvals = evaluations;
+  const grades = {O:0,'A+':0,A:0,'B+':0,B:0,C:0,F:0};
+  allEvals.forEach(e=>grades[e.grade]=(grades[e.grade]||0)+1);
+  const maxG = Math.max(...Object.values(grades));
+  const gcolors = {O:'var(--accent3)','A+':'var(--accent)','A':'#22d3ee','B+':var_or('#a78bfa'),'B':'var(--gold)',C:'var(--warn)',F:'var(--danger)'};
+  function var_or(c){ return c; }
+  document.getElementById('facGradeDistBar').innerHTML = `<div class="bar-chart">
+    ${Object.entries(grades).map(([g,n])=>`<div class="bar" style="height:${maxG?Math.round(n/maxG*70)+10:10}px;background:${gcolors[g]||'var(--accent)'};min-height:6px" data-val="${g}:${n}" title="${g}: ${n}"></div>`).join('')}
+  </div>`;
+  document.getElementById('facGradeDist').innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem">
+    ${Object.entries(grades).map(([g,n])=>`<div style="font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--text-dim)"><span style="color:${gcolors[g]||'var(--accent)'}">${g}</span>: ${n}</div>`).join('')}
+  </div>`;
+
+  renderFacSubmissions();
+  renderPlagiarismTable();
+  renderFacAnalytics();
+  renderFacReports();
+  populateEvalSelect();
+}
+
+function facTab(tab) {
+  ['overview','submissions','plagiarism','evaluate','analytics','reports'].forEach(t => {
+    document.getElementById(`fcont-${t}`).style.display = t===tab?'block':'none';
+    document.getElementById(`ftab-${t}`).classList[t===tab?'add':'remove']('active');
+  });
+}
+
+function renderFacSubmissions() {
+  renderFacSubsFiltered(activeStatusFilter, document.getElementById('facSearchInput')?.value||'');
+}
+
+function filterFacSubs() {
+  renderFacSubsFiltered(activeStatusFilter, document.getElementById('facSearchInput').value);
+}
+
+function filterByStatus(status, btn) {
+  activeStatusFilter = status;
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderFacSubmissions();
+}
+
+function renderFacSubsFiltered(status, search) {
+  const tbody = document.getElementById('facSubsBody');
+  let subs = [...submissions];
+  if (status !== 'all') subs = subs.filter(s=>s.status===status || (status==='pending' && s.status!=='graded'));
+  if (search) {
+    const q = search.toLowerCase();
+    subs = subs.filter(s => {
+      const stu = getStudent(s.student_id);
+      return stu && (stu.name.toLowerCase().includes(q) || stu.reg.includes(q));
+    });
+  }
+  tbody.innerHTML = subs.map(s => {
+    const stu = getStudent(s.student_id);
+    const a = getAssign(s.assignment_id);
+    const ev = getSubEval(s.id);
+    return `<tr>
+      <td><div style="font-weight:600;font-size:0.82rem">${stu?.name}</div></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent)">${stu?.reg}</td>
+      <td style="font-size:0.78rem;color:var(--text-dim)">${a?.subject}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem">${fmtDate(s.submitted_at)} ${s.is_late?'<span class="badge badge-late" style="margin-left:4px">Late</span>':''}</td>
+      <td><span class="sim-pct ${simClass(s.similarity_pct)}">${s.similarity_pct}%</span></td>
+      <td><span class="badge badge-${s.status==='graded'?'graded':'pending'}">${s.status==='graded'?'Graded':'Pending'}</span></td>
+      <td>${ev?`<strong>${ev.marks}/100</strong>`:'<span style="color:var(--text-muted)">â€”</span>'}</td>
+      <td><button class="btn btn-sm" style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:var(--accent2)" onclick="openEvalModal(${s.id})">Evaluate</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted)">No submissions found</td></tr>';
+}
+
+function openEvalModal(subId) {
+  selectedSubId = subId;
+  const sub = submissions.find(s=>s.id===subId);
+  const stu = getStudent(sub.student_id);
+  const a = getAssign(sub.assignment_id);
+  const ev = getSubEval(subId);
+  document.getElementById('evalModalStudentInfo').innerHTML = `
+    <div class="report-student-card" style="margin:0">
+      <div class="student-avatar-lg">${stu.name.charAt(0)}</div>
+      <div class="student-info">
+        <h4>${stu.name} <span style="color:var(--text-muted);font-size:0.8rem">(${stu.reg})</span></h4>
+        <p>${a.title.substring(0,50)}...</p>
+        <p>Submitted: ${fmtDate(sub.submitted_at)} | Similarity: <span class="${simClass(sub.similarity_pct)}">${sub.similarity_pct}%</span></p>
+      </div>
+    </div>`;
+  if (ev) {
+    document.getElementById('modalMarks').value = ev.marks;
+    document.getElementById('modalGrade').value = ev.grade;
+    document.getElementById('modalFeedback').value = ev.feedback;
+  } else {
+    document.getElementById('modalMarks').value = '';
+    document.getElementById('modalGrade').value = 'A';
+    document.getElementById('modalFeedback').value = '';
+  }
+  openModal('evalModal');
+}
+
+function saveModalEval() {
+  const marks = parseInt(document.getElementById('modalMarks').value);
+  const grade = document.getElementById('modalGrade').value;
+  const feedback = document.getElementById('modalFeedback').value;
+  if (isNaN(marks)||!feedback) { showToast('Please fill marks and feedback','error'); return; }
+  const existing = evaluations.findIndex(e=>e.submission_id===selectedSubId);
+  if (existing>=0) {
+    evaluations[existing].marks=marks; evaluations[existing].grade=grade; evaluations[existing].feedback=feedback; evaluations[existing].evaluated_at=new Date().toISOString();
+  } else {
+    evaluations.push({ id:evalId++, submission_id:selectedSubId, faculty_id:currentUser.id, marks, grade, feedback, evaluated_at:new Date().toISOString() });
+    const sub = submissions.find(s=>s.id===selectedSubId);
+    if (sub) sub.status='graded';
+  }
+  closeModal('evalModal');
+  showToast('Evaluation saved!','success');
+  renderFacSubmissions();
+  loadFacultyDash();
+}
+
+function renderPlagiarismTable() {
+  const tbody = document.getElementById('plagTable');
+  const flagged = submissions.map(s => {
+    const stu = getStudent(s.student_id);
+    const a = getAssign(s.assignment_id);
+    return { s, stu, a };
+  }).sort((a,b)=>b.s.similarity_pct-a.s.similarity_pct);
+
+  tbody.innerHTML = flagged.map(({s,stu,a}) => `<tr>
+    <td style="font-weight:600;font-size:0.82rem">${stu?.name}</td>
+    <td style="font-size:0.78rem;color:var(--text-dim)">${a?.subject}</td>
+    <td><span class="sim-pct ${simClass(s.similarity_pct)}" style="font-size:1rem;font-weight:700">${s.similarity_pct}%</span></td>
+    <td><span class="badge ${simBadge(s.similarity_pct)}">${simLabel(s.similarity_pct)}</span></td>
+    <td style="font-size:0.75rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${s.similarity_pct>=30?'Similar to multiple peers':'Unique submission'}</td>
+    <td><button class="btn btn-sm btn-ghost" onclick="showToast('Detailed report feature coming in v3.0','info')">View</button></td>
+  </tr>`).join('');
+}
+
+function populateEvalSelect() {
+  const sel = document.getElementById('evalSubSelect');
+  sel.innerHTML = '<option value="">-- Select a submission --</option>' +
+    submissions.map(s=>{
+      const stu=getStudent(s.student_id); const a=getAssign(s.assignment_id);
+      return `<option value="${s.id}">${stu?.name} (${stu?.reg}) â€” ${a?.subject}</option>`;
+    }).join('');
+}
+
+function loadEvalForm() {
+  const id = parseInt(document.getElementById('evalSubSelect').value);
+  const cont = document.getElementById('evalFormContent');
+  if (!id) { cont.style.display='none'; return; }
+  cont.style.display='block';
+  selectedSubId=id;
+  const ev=getSubEval(id);
+  if(ev){
+    document.getElementById('evalMarks').value=ev.marks;
+    document.getElementById('evalGrade').value=ev.grade;
+    document.getElementById('evalFeedback').value=ev.feedback;
+  }
+}
+
+function saveEvaluation() {
+  const marks=parseInt(document.getElementById('evalMarks').value);
+  const grade=document.getElementById('evalGrade').value;
+  const feedback=document.getElementById('evalFeedback').value;
+  if(isNaN(marks)||!feedback){showAlert('evalSuccessAlert',true);showToast('Fill marks and feedback','error');return;}
+  const ei=evaluations.findIndex(e=>e.submission_id===selectedSubId);
+  if(ei>=0){evaluations[ei].marks=marks;evaluations[ei].grade=grade;evaluations[ei].feedback=feedback;}
+  else{evaluations.push({id:evalId++,submission_id:selectedSubId,faculty_id:currentUser.id,marks,grade,feedback,evaluated_at:new Date().toISOString()});const sub=submissions.find(s=>s.id===selectedSubId);if(sub)sub.status='graded';}
+  showAlert('evalSuccessAlert');showToast('Evaluation saved!','success');
+}
+
+function renderFacAnalytics() {
+  // Top performers
+  const perf = students.map(s=>({stu:s,avg:calcAvg(s.id)})).filter(x=>x.avg).sort((a,b)=>b.avg-a.avg);
+  document.getElementById('facTopPerformers').innerHTML = perf.slice(0,8).map((p,i)=>`
+    <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--border)">
+      <div style="width:24px;height:24px;border-radius:50%;background:${i===0?'var(--gold)':i===1?'#94a3b8':i===2?'#cd7c3a':'var(--surface2)'};display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:${i<3?'#050810':'var(--text-muted)'}">${i+1}</div>
+      <div style="flex:1"><div style="font-size:0.82rem;font-weight:600">${p.stu.name}</div><div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${p.stu.reg}</div></div>
+      <div style="font-weight:800;color:var(--accent);font-family:'JetBrains Mono',monospace">${p.avg}%</div>
+    </div>`).join('');
+
+  // Score distribution
+  const ranges={'>= 90':0,'80â€“89':0,'70â€“79':0,'60â€“69':0,'50â€“59':0,'< 50':0};
+  evaluations.forEach(e=>{
+    if(e.marks>=90)ranges['>=90']=(ranges['>=90']||0)+1,ranges['> 90']=undefined;
+    const k=e.marks>=90?'> 90':e.marks>=80?'80â€“89':e.marks>=70?'70â€“79':e.marks>=60?'60â€“69':e.marks>=50?'50â€“59':'< 50';
+    ranges[k]=(ranges[k]||0)+1;
+  });
+  const rKeys=['>= 90','80â€“89','70â€“79','60â€“69','50â€“59','< 50'];
+  const rColors=['var(--accent3)','var(--accent)','#22d3ee','var(--gold)','var(--warn)','var(--danger)'];
+  document.getElementById('facScoreDist').innerHTML = rKeys.map((r,i)=>`
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem">
+      <div style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:var(--text-dim);width:60px">${r}</div>
+      <div class="prog-bar-wrap" style="flex:1"><div class="prog-bar" style="width:${evaluations.length?((ranges[r]||0)/evaluations.length*100):0}%;background:${rColors[i]}"></div></div>
+      <div style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:var(--text-dim);width:25px">${ranges[r]||0}</div>
+    </div>`).join('');
+
+  // Assignment-wise averages
+  document.getElementById('facAssignAverages').innerHTML = assignments.map(a=>{
+    const subs=submissions.filter(s=>s.assignment_id===a.id&&s.status==='graded');
+    const evs=subs.map(s=>getSubEval(s.id)).filter(Boolean);
+    const avg=evs.length?Math.round(evs.reduce((s,e)=>s+e.marks,0)/evs.length):0;
+    return `<div style="display:flex;align-items:center;gap:1rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1"><div style="font-size:0.82rem;font-weight:600">${a.title.substring(0,50)}...</div><div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${a.subject} | ${evs.length} evaluated</div></div>
+      <div class="prog-bar-wrap" style="width:120px"><div class="prog-bar ${avg>=70?'green':avg>=50?'':'red'}" style="width:${avg}%"></div></div>
+      <div style="font-weight:800;color:var(--accent);font-size:1rem;width:45px;text-align:right">${avg || 'â€”'}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderFacReports() {
+  const cont = document.getElementById('facReportsContent');
+  cont.innerHTML = students.map(stu => {
+    const avg = calcAvg(stu.id);
+    const subs = getStudentSubs(stu.id);
+    const gradedSubs = subs.filter(s=>s.status==='graded');
+    return `<div class="report-student-card" style="cursor:pointer" onclick="this.nextSibling.style.display=this.nextSibling.style.display==='none'?'block':'none'">
+      <div class="student-avatar-lg">${stu.name.charAt(0)}</div>
+      <div class="student-info">
+        <h4>${stu.name}</h4>
+        <p>Reg. ${stu.reg} | ${subs.length} submissions, ${gradedSubs.length} graded</p>
+      </div>
+      <div style="margin-left:auto;text-align:right;margin-right:1rem">
+        <div style="font-size:1.5rem;font-weight:800;color:${avg?avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)':'var(--text-muted)'}">${avg||'N/A'}%</div>
+        <div style="font-size:0.68rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">Avg Score</div>
+      </div>
+      <button class="btn btn-ghost btn-sm">Details â–¾</button>
+    </div>
+    <div style="display:none;margin-bottom:1rem;padding:1rem;background:var(--surface2);border-radius:0 0 12px 12px;border:1px solid var(--border);border-top:none">
+      <table class="data-table">
+        <thead><tr><th>Assignment</th><th>Submitted</th><th>Similarity</th><th>Marks</th><th>Grade</th></tr></thead>
+        <tbody>${assignments.map(a=>{
+          const sub=subs.find(s=>s.assignment_id===a.id);
+          const ev=sub?getSubEval(sub.id):null;
+          return `<tr><td style="font-size:0.78rem">${a.subject}</td><td>${sub?'<span class="badge badge-submitted">Yes</span>':'<span class="badge badge-pending">No</span>'}</td><td>${sub?`<span class="${simClass(sub.similarity_pct)}">${sub.similarity_pct}%</span>`:'â€”'}</td><td>${ev?`<strong>${ev.marks}</strong>`:'â€”'}</td><td>${ev?`<span class="badge badge-graded">${ev.grade}</span>`:'â€”'}</td></tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+}
+
+// â”€â”€ ADMIN DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function loadAdminDash() {
+  renderAdminStudents();
+  renderAdminAssignments();
+  renderAdminFaculty();
+  renderAdminReports();
+  renderAdminSysStatus();
+}
+
+function adminTab(tab) {
+  ['overview','students','assignments','faculty','reports','settings'].forEach(t=>{
+    document.getElementById(`acont-${t}`).style.display=t===tab?'block':'none';
+    document.getElementById(`atab-${t}`).classList[t===tab?'add':'remove']('active');
+  });
+}
+
+function renderAdminStudents() {
+  const tbody = document.getElementById('adminStudentsBody');
+  tbody.innerHTML = students.map(s=>{
+    const avg=calcAvg(s.id);
+    const subs=getStudentSubs(s.id);
+    return `<tr>
+      <td style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${s.reg}</td>
+      <td style="font-weight:600">${s.name}</td>
+      <td style="font-size:0.78rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace">${s.email}</td>
+      <td style="text-align:center">${subs.length}</td>
+      <td style="text-align:center;font-weight:700;color:${avg?avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)':'var(--text-muted)'}">${avg?avg+'%':'â€”'}</td>
+      <td><span class="badge badge-${s.status==='active'?'active':'inactive'}">${s.status}</span></td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('Edit student: ${s.name}','info')">Edit</button>
+        <button class="btn btn-sm" style="background:rgba(255,51,102,0.1);border:1px solid rgba(255,51,102,0.3);color:var(--danger);margin-left:4px" onclick="toggleStudentStatus(${s.id})">Toggle</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function toggleStudentStatus(id) {
+  const s=students.find(s=>s.id===id);
+  if(s){s.status=s.status==='active'?'inactive':'active';renderAdminStudents();showToast(`${s.name} status updated`,'info');}
+}
+
+function renderAdminAssignments() {
+  const tbody = document.getElementById('adminAssignBody');
+  tbody.innerHTML = assignments.map(a=>{
+    const subs=submissions.filter(s=>s.assignment_id===a.id);
+    const evs=subs.map(s=>getSubEval(s.id)).filter(Boolean);
+    const avg=evs.length?Math.round(evs.reduce((s,e)=>s+e.marks,0)/evs.length):null;
+    return `<tr>
+      <td style="font-family:'JetBrains Mono',monospace;color:var(--accent)">#A0${a.id}</td>
+      <td style="font-weight:600;font-size:0.82rem">${a.title.substring(0,40)}...</td>
+      <td style="font-size:0.78rem;color:var(--text-dim)">${a.subject}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem">${a.due}</td>
+      <td style="text-align:center">${a.max}</td>
+      <td style="text-align:center">${subs.length}</td>
+      <td style="text-align:center;font-weight:700;color:var(--accent3)">${avg?avg+'%':'â€”'}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="showToast('Edit assignment functionality','info')">Edit</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderAdminFaculty() {
+  const tbody = document.getElementById('adminFacultyBody');
+  tbody.innerHTML = faculty.map(f=>`<tr>
+    <td style="font-family:'JetBrains Mono',monospace;color:var(--accent2)">${f.code}</td>
+    <td style="font-weight:600">${f.name}</td>
+    <td style="font-size:0.78rem">${f.dept}</td>
+    <td style="font-size:0.78rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace">${f.email}</td>
+    <td style="font-size:0.78rem">DS, OS, DBMS</td>
+    <td><span class="badge badge-active">Active</span></td>
+  </tr>`).join('');
+}
+
+function renderAdminReports() {
+  const cont = document.getElementById('adminReportsContent');
+  const classAvg = Math.round(evaluations.reduce((s,e)=>s+e.marks,0)/evaluations.length);
+  cont.innerHTML = `
+    <div class="kpi-grid" style="margin-bottom:1.5rem">
+      <div class="kpi blue"><div class="kpi-label">Total Submissions</div><div class="kpi-value">${submissions.length}</div></div>
+      <div class="kpi green"><div class="kpi-label">Total Evaluated</div><div class="kpi-value">${evaluations.length}</div></div>
+      <div class="kpi gold"><div class="kpi-label">Class Average</div><div class="kpi-value">${classAvg}%</div></div>
+      <div class="kpi red"><div class="kpi-label">High Similarity</div><div class="kpi-value">${submissions.filter(s=>s.similarity_pct>=40).length}</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Complete Class Report <button class="btn btn-ghost btn-sm" style="font-size:0.7rem" onclick="showToast('Exporting report as PDF...','info')">Export PDF</button></div>
+      <table class="data-table">
+        <thead><tr><th>Reg.</th><th>Name</th><th>Submissions</th>${assignments.map(a=>`<th>${a.subject.substring(0,10)}</th>`).join('')}<th>Avg</th><th>Rank</th></tr></thead>
+        <tbody>
+        ${[...students].map(s=>({s,avg:calcAvg(s.id)||0})).sort((a,b)=>b.avg-a.avg).map(({s,avg},rank)=>{
+          const subs=getStudentSubs(s.id);
+          return `<tr>
+            <td style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${s.reg}</td>
+            <td style="font-weight:600">${s.name}</td>
+            <td style="text-align:center">${subs.length}</td>
+            ${assignments.map(a=>{const sub=subs.find(ss=>ss.assignment_id===a.id);const ev=sub?getSubEval(sub.id):null;return `<td style="text-align:center;font-family:'JetBrains Mono',monospace">${ev?ev.marks:'â€”'}</td>`;}).join('')}
+            <td style="font-weight:800;color:${avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)'}">${avg||'â€”'}%</td>
+            <td style="font-family:'JetBrains Mono',monospace;color:var(--text-dim)">#${rank+1}</td>
+          </tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderAdminSysStatus() {
+  document.getElementById('adminSysStatus').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:0.75rem">
+      ${[
+        {label:'Database',status:'Online',ok:true},
+        {label:'File Storage',status:'98% free',ok:true},
+        {label:'Plagiarism Engine',status:'Active',ok:true},
+        {label:'Email Notifications',status:'Configured',ok:true},
+        {label:'Last Backup',status:'2 hours ago',ok:true},
+        {label:'API Server',status:'Running',ok:true},
+      ].map(item=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:0.82rem">${item.label}</span>
+        <span style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:${item.ok?'var(--accent3)':'var(--danger)'}">â— ${item.status}</span>
+      </div>`).join('')}
+    </div>`;
+  document.getElementById('adminRecentActions').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:0.5rem">
+      ${[
+        {t:'Assignment #5 created',d:'Today, 10:30 AM'},
+        {t:'Saketh Rao submission graded',d:'Today, 9:15 AM'},
+        {t:'New student Sujith enrolled',d:'Yesterday'},
+        {t:'Plagiarism scan run on A#3',d:'Yesterday'},
+        {t:'Semester report exported',d:'2 days ago'},
+      ].map(a=>`<div style="padding:0.5rem 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:0.8rem">${a.t}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${a.d}</div>
+      </div>`).join('')}
+    </div>`;
+}
+
+function openAddStudentModal() { openModal('addStudentModal'); }
+function addStudent() {
+  const reg=document.getElementById('newStuReg').value;
+  const name=document.getElementById('newStuName').value;
+  const email=document.getElementById('newStuEmail').value;
+  if(!reg||!name||!email){showToast('Fill all fields','error');return;}
+  students.push({id:students.length+1,reg,name,email,batch:document.getElementById('newStuBatch').value,status:'active',password:reg});
+  closeModal('addStudentModal');
+  renderAdminStudents();
+  showToast(`${name} added successfully!`,'success');
+}
+
+function openCreateAssignModal() { openModal('createAssignModal'); }
+function createAssignment() {
+  const title=document.getElementById('newAssignTitle').value;
+  const subject=document.getElementById('newAssignSubject').value;
+  const due=document.getElementById('newAssignDue').value;
+  if(!title||!subject||!due){showToast('Fill all fields','error');return;}
+  assignments.push({id:assignments.length+1,title,subject,faculty_id:1,due,max:parseInt(document.getElementById('newAssignMax').value)||100,status:'active',desc:document.getElementById('newAssignDesc').value});
+  closeModal('createAssignModal');
+  renderAdminAssignments();
+  showToast(`Assignment created!`,'success');
+}
+
+// Enter key support
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const page = document.querySelector('.page.active')?.id;
+    if (page==='studentLogin') stuLogin();
+    else if (page==='facultyLogin') facLogin();
+    else if (page==='adminLogin') adminLogin();
+  }
+});
+</script>
+</body>
+</html>
