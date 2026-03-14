@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CS Assignment Portal â€” CSED</title>
+<title>CS Assignment Portal- Jahnavi Mogarala's — CSED</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -111,7 +111,7 @@ nav {
   background-size: 40px 40px;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• HOME PAGE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════ HOME PAGE ═══════════════════ */
 #home { position: relative; }
 
 .hero {
@@ -291,9 +291,9 @@ nav {
   font-family: 'JetBrains Mono', monospace;
   display: flex; align-items: center; gap: 0.5rem;
 }
-.module-features li::before { content: 'â–¸'; color: var(--card-border, var(--accent)); }
+.module-features li::before { content: '▸'; color: var(--card-border, var(--accent)); }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LOGIN PAGES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════ LOGIN PAGES ═══════════════════ */
 .login-wrap {
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
   padding: 80px 1rem 2rem;
@@ -349,7 +349,7 @@ nav {
 .divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: var(--text-muted); font-size: 0.75rem; }
 .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DASHBOARD LAYOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ═══════════════════ DASHBOARD LAYOUT ═══════════════════ */
 .dash-layout { display: flex; min-height: 100vh; padding-top: 64px; }
 
 .sidebar {
@@ -637,7 +637,7 @@ nav {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-brand" onclick="showPage('home')">â¬¡ <span>CS</span>AssignPortal</div>
+  <div class="nav-brand" onclick="showPage('home')">⬡ <span>CS</span>AssignPortal</div>
   <div class="nav-links" id="navLinks">
     <button class="nav-btn active" onclick="showPage('home')">Home</button>
     <button class="nav-btn" onclick="showPage('studentLogin')">Student</button>
@@ -654,17 +654,17 @@ nav {
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• HOME â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ HOME ══════════════════════ -->
 <div class="page active" id="home">
   <section class="hero">
     <div>
-      <div class="hero-badge"><div class="hero-badge-dot"></div>CS Dept â€” Academic Year 2024â€“25</div>
+      <div class="hero-badge"><div class="hero-badge-dot"></div>CS Dept — Academic Year 2024–25</div>
       <h1>Assignment<br><span class="glow">Submission</span> &<br><span class="glow2">Evaluation</span> Portal</h1>
       <p>A unified platform for Computer Science students and faculty to manage assignments, track submissions, detect plagiarism, and streamline evaluations.</p>
       <div class="hero-actions">
-        <button class="btn btn-primary" onclick="showPage('studentLogin')">ðŸŽ“ Student Login</button>
-        <button class="btn btn-accent2" onclick="showPage('facultyLogin')">ðŸ‘¨â€ðŸ« Faculty Login</button>
-        <button class="btn btn-ghost" onclick="showPage('adminLogin')">âš™ Admin</button>
+        <button class="btn btn-primary" onclick="showPage('studentLogin')">🎓 Student Login</button>
+        <button class="btn btn-accent2" onclick="showPage('facultyLogin')">👨‍🏫 Faculty Login</button>
+        <button class="btn btn-ghost" onclick="showPage('adminLogin')">⚙ Admin</button>
       </div>
     </div>
     <div class="terminal">
@@ -674,11 +674,11 @@ nav {
       </div>
       <div class="terminal-body">
         <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">status --all</span></div>
-        <div class="term-line"><span class="term-out success">âœ“ Portal Online â€” v2.4.1</span></div>
-        <div class="term-line"><span class="term-out">â†’ 17 students enrolled</span></div>
-        <div class="term-line"><span class="term-out">â†’ 5 active assignments</span></div>
-        <div class="term-line"><span class="term-out warn">âš  3 submissions pending eval</span></div>
-        <div class="term-line"><span class="term-out success">âœ“ Plagiarism engine ready</span></div>
+        <div class="term-line"><span class="term-out success">✓ Portal Online — v2.4.1</span></div>
+        <div class="term-line"><span class="term-out">→ 17 students enrolled</span></div>
+        <div class="term-line"><span class="term-out">→ 5 active assignments</span></div>
+        <div class="term-line"><span class="term-out warn">⚠ 3 submissions pending eval</span></div>
+        <div class="term-line"><span class="term-out success">✓ Plagiarism engine ready</span></div>
         <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">uptime</span></div>
         <div class="term-line"><span class="term-out">99.8% availability this semester</span></div>
         <div class="term-line"><span class="term-prompt">$</span><span class="term-cursor"></span></div>
@@ -687,10 +687,10 @@ nav {
   </section>
 
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-icon">ðŸ‘¥</div><div class="stat-value">17</div><div class="stat-label">Enrolled Students</div></div>
-    <div class="stat-card"><div class="stat-icon">ðŸ“‹</div><div class="stat-value">5</div><div class="stat-label">Active Assignments</div></div>
-    <div class="stat-card"><div class="stat-icon">ðŸ“¤</div><div class="stat-value">68</div><div class="stat-label">Total Submissions</div></div>
-    <div class="stat-card"><div class="stat-icon">âš¡</div><div class="stat-value">74%</div><div class="stat-label">Average Score</div></div>
+    <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">17</div><div class="stat-label">Enrolled Students</div></div>
+    <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-value">5</div><div class="stat-label">Active Assignments</div></div>
+    <div class="stat-card"><div class="stat-icon">📤</div><div class="stat-value">68</div><div class="stat-label">Total Submissions</div></div>
+    <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-value">74%</div><div class="stat-label">Average Score</div></div>
   </div>
 
   <div class="modules-section">
@@ -698,7 +698,7 @@ nav {
     <div class="section-sub">// Access tailored dashboards based on your role</div>
     <div class="modules-grid">
       <div class="module-card student" onclick="showPage('studentLogin')">
-        <div class="module-icon">ðŸŽ“</div>
+        <div class="module-icon">🎓</div>
         <div class="module-tag">Student Module</div>
         <div class="module-title">Student Portal</div>
         <div class="module-desc">Upload assignments, track submission status, view marks, and receive detailed faculty feedback.</div>
@@ -711,7 +711,7 @@ nav {
         </ul>
       </div>
       <div class="module-card faculty" onclick="showPage('facultyLogin')">
-        <div class="module-icon">ðŸ‘¨â€ðŸ«</div>
+        <div class="module-icon">👨‍🏫</div>
         <div class="module-tag">Faculty Module</div>
         <div class="module-title">Faculty Dashboard</div>
         <div class="module-desc">Review all submissions, run plagiarism checks, assign marks, and provide structured feedback.</div>
@@ -724,7 +724,7 @@ nav {
         </ul>
       </div>
       <div class="module-card admin" onclick="showPage('adminLogin')">
-        <div class="module-icon">âš™ï¸</div>
+        <div class="module-icon">⚙️</div>
         <div class="module-tag">Admin Module</div>
         <div class="module-title">Admin Control Panel</div>
         <div class="module-desc">Manage student roster, create assignments, configure portal settings, and generate reports.</div>
@@ -740,14 +740,14 @@ nav {
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STUDENT LOGIN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ STUDENT LOGIN ══════════════════════ -->
 <div class="page" id="studentLogin">
   <div class="login-wrap">
     <div class="login-card">
-      <div class="login-logo">ðŸŽ“</div>
+      <div class="login-logo">🎓</div>
       <div class="login-title">Student Login</div>
       <div class="login-sub">// Enter your registration number</div>
-      <div class="alert alert-error" id="stuLoginErr">âŒ Invalid credentials. Try again.</div>
+      <div class="alert alert-error" id="stuLoginErr">❌ Invalid credentials. Try again.</div>
       <div class="form-group">
         <label class="form-label">Registration Number</label>
         <input class="form-input" id="stuRegInput" placeholder="e.g. 351, 352 ..." type="text">
@@ -758,28 +758,28 @@ nav {
         <input class="form-input" id="stuPassInput" placeholder="Enter password" type="password">
         <div class="form-hint">Default: your reg. number (e.g. 351)</div>
       </div>
-      <button class="btn btn-primary" style="width:100%" onclick="stuLogin()">Login to Portal â†’</button>
+      <button class="btn btn-primary" style="width:100%" onclick="stuLogin()">Login to Portal →</button>
       <div class="divider">OR</div>
       <div style="text-align:center">
-        <button class="btn btn-ghost btn-sm" onclick="showPage('home')">â† Back to Home</button>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('home')">← Back to Home</button>
       </div>
       <div style="margin-top:1.5rem; padding:1rem; background:var(--surface2); border-radius:8px; border:1px solid var(--border)">
         <div style="font-size:0.72rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace; margin-bottom:0.5rem;">// Demo credentials</div>
-        <div style="font-size:0.78rem; color:var(--text-dim); font-family:'JetBrains Mono',monospace;">Any reg. from 351â€“367 | Password = reg. number</div>
+        <div style="font-size:0.78rem; color:var(--text-dim); font-family:'JetBrains Mono',monospace;">Any reg. from 351–367 | Password = reg. number</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• FACULTY LOGIN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ FACULTY LOGIN ══════════════════════ -->
 <div class="page" id="facultyLogin">
   <div class="login-wrap">
     <div class="login-card">
       <div style="border-top-color:var(--accent2)" class="login-card-top"></div>
-      <div class="login-logo">ðŸ‘¨â€ðŸ«</div>
+      <div class="login-logo">👨‍🏫</div>
       <div class="login-title">Faculty Login</div>
       <div class="login-sub">// Department faculty portal access</div>
-      <div class="alert alert-error" id="facLoginErr">âŒ Invalid credentials.</div>
+      <div class="alert alert-error" id="facLoginErr">❌ Invalid credentials.</div>
       <div class="form-group">
         <label class="form-label">Faculty ID</label>
         <input class="form-input" id="facIdInput" placeholder="e.g. FAC001" type="text">
@@ -789,21 +789,21 @@ nav {
         <input class="form-input" id="facPassInput" placeholder="Enter password" type="password">
         <div class="form-hint">Demo: FAC001 / faculty123</div>
       </div>
-      <button class="btn btn-accent2" style="width:100%" onclick="facLogin()">Access Faculty Dashboard â†’</button>
+      <button class="btn btn-accent2" style="width:100%" onclick="facLogin()">Access Faculty Dashboard →</button>
       <div class="divider">OR</div>
-      <div style="text-align:center"><button class="btn btn-ghost btn-sm" onclick="showPage('home')">â† Back to Home</button></div>
+      <div style="text-align:center"><button class="btn btn-ghost btn-sm" onclick="showPage('home')">← Back to Home</button></div>
     </div>
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ADMIN LOGIN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ ADMIN LOGIN ══════════════════════ -->
 <div class="page" id="adminLogin">
   <div class="login-wrap">
     <div class="login-card">
-      <div class="login-logo">âš™ï¸</div>
+      <div class="login-logo">⚙️</div>
       <div class="login-title">Admin Login</div>
       <div class="login-sub">// System administrator access</div>
-      <div class="alert alert-error" id="adminLoginErr">âŒ Invalid credentials.</div>
+      <div class="alert alert-error" id="adminLoginErr">❌ Invalid credentials.</div>
       <div class="form-group">
         <label class="form-label">Admin Username</label>
         <input class="form-input" id="adminUserInput" placeholder="admin" type="text">
@@ -813,24 +813,24 @@ nav {
         <input class="form-input" id="adminPassInput" placeholder="Enter password" type="password">
         <div class="form-hint">Demo: admin / admin123</div>
       </div>
-      <button class="btn btn-success" style="width:100%" onclick="adminLogin()">Access Admin Panel â†’</button>
+      <button class="btn btn-success" style="width:100%" onclick="adminLogin()">Access Admin Panel →</button>
       <div class="divider">OR</div>
-      <div style="text-align:center"><button class="btn btn-ghost btn-sm" onclick="showPage('home')">â† Back to Home</button></div>
+      <div style="text-align:center"><button class="btn btn-ghost btn-sm" onclick="showPage('home')">← Back to Home</button></div>
     </div>
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• STUDENT DASHBOARD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ STUDENT DASHBOARD ══════════════════════ -->
 <div class="page" id="studentDash">
   <div class="dash-layout">
     <aside class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-label">Navigation</div>
-        <div class="sidebar-item active" onclick="stuTab('overview')" id="stab-overview"><span class="icon">ðŸ“Š</span> Overview</div>
-        <div class="sidebar-item" onclick="stuTab('upload')" id="stab-upload"><span class="icon">ðŸ“¤</span> Upload Assignment</div>
-        <div class="sidebar-item" onclick="stuTab('submissions')" id="stab-submissions"><span class="icon">ðŸ“</span> My Submissions</div>
-        <div class="sidebar-item" onclick="stuTab('marks')" id="stab-marks"><span class="icon">ðŸ…</span> Marks & Feedback</div>
-        <div class="sidebar-item" onclick="stuTab('report')" id="stab-report"><span class="icon">ðŸ“„</span> My Report</div>
+        <div class="sidebar-item active" onclick="stuTab('overview')" id="stab-overview"><span class="icon">📊</span> Overview</div>
+        <div class="sidebar-item" onclick="stuTab('upload')" id="stab-upload"><span class="icon">📤</span> Upload Assignment</div>
+        <div class="sidebar-item" onclick="stuTab('submissions')" id="stab-submissions"><span class="icon">📁</span> My Submissions</div>
+        <div class="sidebar-item" onclick="stuTab('marks')" id="stab-marks"><span class="icon">🏅</span> Marks & Feedback</div>
+        <div class="sidebar-item" onclick="stuTab('report')" id="stab-report"><span class="icon">📄</span> My Report</div>
       </div>
     </aside>
     <main class="dash-main">
@@ -840,14 +840,14 @@ nav {
           <div class="page-header-row">
             <div>
               <h2>Welcome back, <span id="stuWelcomeName" style="color:var(--accent)">Student</span></h2>
-              <p>Reg. <span id="stuWelcomeReg">â€”</span> | Computer Science Department</p>
+              <p>Reg. <span id="stuWelcomeReg">—</span> | Computer Science Department</p>
             </div>
           </div>
         </div>
         <div class="kpi-grid">
           <div class="kpi blue"><div class="kpi-label">Submissions</div><div class="kpi-value" id="stu-kpi-sub">0</div><div class="kpi-sub">Total uploaded</div></div>
           <div class="kpi green"><div class="kpi-label">Graded</div><div class="kpi-value" id="stu-kpi-graded">0</div><div class="kpi-sub">Evaluated</div></div>
-          <div class="kpi gold"><div class="kpi-label">Avg Score</div><div class="kpi-value" id="stu-kpi-avg">â€”</div><div class="kpi-sub">Your average</div></div>
+          <div class="kpi gold"><div class="kpi-label">Avg Score</div><div class="kpi-value" id="stu-kpi-avg">—</div><div class="kpi-sub">Your average</div></div>
           <div class="kpi purple"><div class="kpi-label">Pending</div><div class="kpi-value" id="stu-kpi-pending">0</div><div class="kpi-sub">Awaiting evaluation</div></div>
         </div>
         <div class="grid-2">
@@ -866,8 +866,8 @@ nav {
       <div id="scont-upload" style="display:none">
         <div class="page-header"><h2>Upload Assignment</h2><p>// Select assignment and attach your file</p></div>
         <div class="panel" style="max-width:600px">
-          <div class="alert alert-success" id="uploadSuccessAlert">âœ… Assignment uploaded successfully!</div>
-          <div class="alert alert-error" id="uploadErrAlert">âŒ Please fill all fields and select a file.</div>
+          <div class="alert alert-success" id="uploadSuccessAlert">✅ Assignment uploaded successfully!</div>
+          <div class="alert alert-error" id="uploadErrAlert">❌ Please fill all fields and select a file.</div>
           <div class="form-group">
             <label class="form-label">Select Assignment</label>
             <select class="form-select" id="uploadAssignSelect"></select>
@@ -875,25 +875,25 @@ nav {
           <div class="form-group">
             <label class="form-label">Assignment File</label>
             <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
-              <div class="upload-icon">ðŸ“Ž</div>
+              <div class="upload-icon">📎</div>
               <div class="upload-text">Click to browse or drag & drop</div>
-              <div class="upload-hint">PDF, DOCX, ZIP â€” max 10MB</div>
+              <div class="upload-hint">PDF, DOCX, ZIP — max 10MB</div>
             </div>
             <input type="file" id="fileInput" style="display:none" accept=".pdf,.docx,.zip,.py,.java,.cpp,.txt" onchange="handleFileSelect(event)">
             <div class="upload-file-info" id="uploadFileInfo">
-              <span>ðŸ“„</span>
+              <span>📄</span>
               <div>
-                <div class="upload-file-name" id="uploadFileName">â€”</div>
-                <div class="upload-file-size" id="uploadFileSize">â€”</div>
+                <div class="upload-file-name" id="uploadFileName">—</div>
+                <div class="upload-file-size" id="uploadFileSize">—</div>
               </div>
-              <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="clearFile()">âœ•</button>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="clearFile()">✕</button>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Comments (Optional)</label>
             <textarea class="form-textarea" id="uploadComments" placeholder="Any notes for your faculty..."></textarea>
           </div>
-          <button class="btn btn-primary" onclick="submitAssignment()">Submit Assignment â†’</button>
+          <button class="btn btn-primary" onclick="submitAssignment()">Submit Assignment →</button>
         </div>
       </div>
 
@@ -923,18 +923,18 @@ nav {
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• FACULTY DASHBOARD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ FACULTY DASHBOARD ══════════════════════ -->
 <div class="page" id="facultyDash">
   <div class="dash-layout">
     <aside class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-label">Faculty Tools</div>
-        <div class="sidebar-item active" onclick="facTab('overview')" id="ftab-overview"><span class="icon">ðŸ“Š</span> Dashboard</div>
-        <div class="sidebar-item" onclick="facTab('submissions')" id="ftab-submissions"><span class="icon">ðŸ“</span> All Submissions <div class="sidebar-badge" id="facPendingBadge">0</div></div>
-        <div class="sidebar-item" onclick="facTab('plagiarism')" id="ftab-plagiarism"><span class="icon">ðŸ”</span> Similarity Check</div>
-        <div class="sidebar-item" onclick="facTab('evaluate')" id="ftab-evaluate"><span class="icon">âœï¸</span> Evaluate</div>
-        <div class="sidebar-item" onclick="facTab('analytics')" id="ftab-analytics"><span class="icon">ðŸ“ˆ</span> Analytics</div>
-        <div class="sidebar-item" onclick="facTab('reports')" id="ftab-reports"><span class="icon">ðŸ“„</span> Reports</div>
+        <div class="sidebar-item active" onclick="facTab('overview')" id="ftab-overview"><span class="icon">📊</span> Dashboard</div>
+        <div class="sidebar-item" onclick="facTab('submissions')" id="ftab-submissions"><span class="icon">📁</span> All Submissions <div class="sidebar-badge" id="facPendingBadge">0</div></div>
+        <div class="sidebar-item" onclick="facTab('plagiarism')" id="ftab-plagiarism"><span class="icon">🔍</span> Similarity Check</div>
+        <div class="sidebar-item" onclick="facTab('evaluate')" id="ftab-evaluate"><span class="icon">✏️</span> Evaluate</div>
+        <div class="sidebar-item" onclick="facTab('analytics')" id="ftab-analytics"><span class="icon">📈</span> Analytics</div>
+        <div class="sidebar-item" onclick="facTab('reports')" id="ftab-reports"><span class="icon">📄</span> Reports</div>
       </div>
     </aside>
     <main class="dash-main">
@@ -966,7 +966,7 @@ nav {
           <div class="page-header-row">
             <div><h2>All Submissions</h2><p>// Review and manage student submissions</p></div>
             <div class="search-wrap" style="width:240px">
-              <span class="search-icon">ðŸ”</span>
+              <span class="search-icon">🔍</span>
               <input class="search-input" placeholder="Search student..." id="facSearchInput" oninput="filterFacSubs()" >
             </div>
           </div>
@@ -990,7 +990,7 @@ nav {
         <div class="page-header"><h2>Similarity Check</h2><p>// Plagiarism and similarity analysis</p></div>
         <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
           <div class="kpi red"><div class="kpi-label">High (&gt;40%)</div><div class="kpi-value">4</div><div class="kpi-sub">Require review</div></div>
-          <div class="kpi gold"><div class="kpi-label">Medium (20â€“40%)</div><div class="kpi-value">9</div><div class="kpi-sub">Acceptable</div></div>
+          <div class="kpi gold"><div class="kpi-label">Medium (20–40%)</div><div class="kpi-value">9</div><div class="kpi-sub">Acceptable</div></div>
           <div class="kpi green"><div class="kpi-label">Low (&lt;20%)</div><div class="kpi-value">55</div><div class="kpi-sub">Good originality</div></div>
         </div>
         <div class="panel" style="overflow-x:auto">
@@ -1005,7 +1005,7 @@ nav {
       <div id="fcont-evaluate" style="display:none">
         <div class="page-header"><h2>Evaluate Submission</h2><p>// Enter marks and provide feedback</p></div>
         <div class="panel" style="max-width:640px">
-          <div class="alert alert-success" id="evalSuccessAlert">âœ… Evaluation saved successfully!</div>
+          <div class="alert alert-success" id="evalSuccessAlert">✅ Evaluation saved successfully!</div>
           <div class="form-group">
             <label class="form-label">Select Submission</label>
             <select class="form-select" id="evalSubSelect" onchange="loadEvalForm()"></select>
@@ -1014,7 +1014,7 @@ nav {
             <div class="grid-2">
               <div class="form-group">
                 <label class="form-label">Marks Awarded</label>
-                <input class="form-input" id="evalMarks" type="number" min="0" max="100" placeholder="0â€“100">
+                <input class="form-input" id="evalMarks" type="number" min="0" max="100" placeholder="0–100">
               </div>
               <div class="form-group">
                 <label class="form-label">Max Marks</label>
@@ -1024,13 +1024,13 @@ nav {
             <div class="form-group">
               <label class="form-label">Grade</label>
               <select class="form-select" id="evalGrade">
-                <option value="O">O â€” Outstanding (90â€“100)</option>
-                <option value="A+">A+ â€” Excellent (80â€“89)</option>
-                <option value="A">A â€” Very Good (70â€“79)</option>
-                <option value="B+">B+ â€” Good (60â€“69)</option>
-                <option value="B">B â€” Average (50â€“59)</option>
-                <option value="C">C â€” Below Average (40â€“49)</option>
-                <option value="F">F â€” Fail (&lt;40)</option>
+                <option value="O">O — Outstanding (90–100)</option>
+                <option value="A+">A+ — Excellent (80–89)</option>
+                <option value="A">A — Very Good (70–79)</option>
+                <option value="B+">B+ — Good (60–69)</option>
+                <option value="B">B — Average (50–59)</option>
+                <option value="C">C — Below Average (40–49)</option>
+                <option value="F">F — Fail (&lt;40)</option>
               </select>
             </div>
             <div class="form-group">
@@ -1042,7 +1042,7 @@ nav {
               <input class="form-input" id="evalSim" type="number" min="0" max="100" placeholder="Auto-detected %">
               <div class="form-hint">Leave blank to use auto-detected value</div>
             </div>
-            <button class="btn btn-accent2" onclick="saveEvaluation()">Save Evaluation â†’</button>
+            <button class="btn btn-accent2" onclick="saveEvaluation()">Save Evaluation →</button>
           </div>
         </div>
       </div>
@@ -1075,24 +1075,24 @@ nav {
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• ADMIN DASHBOARD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ ADMIN DASHBOARD ══════════════════════ -->
 <div class="page" id="adminDash">
   <div class="dash-layout">
     <aside class="sidebar">
       <div class="sidebar-section">
         <div class="sidebar-label">Admin Panel</div>
-        <div class="sidebar-item active" onclick="adminTab('overview')" id="atab-overview"><span class="icon">ðŸ“Š</span> Overview</div>
-        <div class="sidebar-item" onclick="adminTab('students')" id="atab-students"><span class="icon">ðŸ‘¥</span> Manage Students</div>
-        <div class="sidebar-item" onclick="adminTab('assignments')" id="atab-assignments"><span class="icon">ðŸ“‹</span> Manage Assignments</div>
-        <div class="sidebar-item" onclick="adminTab('faculty')" id="atab-faculty"><span class="icon">ðŸ‘¨â€ðŸ«</span> Manage Faculty</div>
-        <div class="sidebar-item" onclick="adminTab('reports')" id="atab-reports"><span class="icon">ðŸ“„</span> All Reports</div>
-        <div class="sidebar-item" onclick="adminTab('settings')" id="atab-settings"><span class="icon">âš™ï¸</span> Settings</div>
+        <div class="sidebar-item active" onclick="adminTab('overview')" id="atab-overview"><span class="icon">📊</span> Overview</div>
+        <div class="sidebar-item" onclick="adminTab('students')" id="atab-students"><span class="icon">👥</span> Manage Students</div>
+        <div class="sidebar-item" onclick="adminTab('assignments')" id="atab-assignments"><span class="icon">📋</span> Manage Assignments</div>
+        <div class="sidebar-item" onclick="adminTab('faculty')" id="atab-faculty"><span class="icon">👨‍🏫</span> Manage Faculty</div>
+        <div class="sidebar-item" onclick="adminTab('reports')" id="atab-reports"><span class="icon">📄</span> All Reports</div>
+        <div class="sidebar-item" onclick="adminTab('settings')" id="atab-settings"><span class="icon">⚙️</span> Settings</div>
       </div>
     </aside>
     <main class="dash-main">
       <!-- ADMIN OVERVIEW -->
       <div id="acont-overview">
-        <div class="page-header"><h2>Admin Control Panel</h2><p>// System administrator â€” full access</p></div>
+        <div class="page-header"><h2>Admin Control Panel</h2><p>// System administrator — full access</p></div>
         <div class="kpi-grid">
           <div class="kpi blue"><div class="kpi-label">Students</div><div class="kpi-value">17</div><div class="kpi-sub">Enrolled</div></div>
           <div class="kpi purple"><div class="kpi-label">Faculty</div><div class="kpi-value">3</div><div class="kpi-sub">Active</div></div>
@@ -1183,7 +1183,7 @@ nav {
           </div>
           <div class="form-group">
             <label class="form-label">Academic Year</label>
-            <input class="form-input" type="text" value="2024â€“2025">
+            <input class="form-input" type="text" value="2024–2025">
           </div>
           <button class="btn btn-success" onclick="showToast('Settings saved!','success')">Save Settings</button>
         </div>
@@ -1192,7 +1192,7 @@ nav {
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• DB SCHEMA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<!-- ══════════════════════ DB SCHEMA ══════════════════════ -->
 <div class="page" id="dbSchema">
   <div style="max-width:1100px; margin:0 auto; padding:100px 2rem 3rem">
     <div class="page-header">
@@ -1210,7 +1210,7 @@ nav {
             <div class="schema-col"><span class="schema-col-name">full_name</span><span class="schema-col-type">VARCHAR(100)</span><span class="schema-col-note">NOT NULL</span></div>
             <div class="schema-col"><span class="schema-col-name">email</span><span class="schema-col-type">VARCHAR(150)</span><span class="schema-col-note">UNIQUE</span></div>
             <div class="schema-col"><span class="schema-col-name">password_hash</span><span class="schema-col-type">VARCHAR(255)</span><span class="schema-col-note">bcrypt hashed</span></div>
-            <div class="schema-col"><span class="schema-col-name">batch</span><span class="schema-col-type">VARCHAR(20)</span><span class="schema-col-note">e.g. 2022â€“26</span></div>
+            <div class="schema-col"><span class="schema-col-name">batch</span><span class="schema-col-type">VARCHAR(20)</span><span class="schema-col-note">e.g. 2022–26</span></div>
             <div class="schema-col"><span class="schema-col-name">status</span><span class="schema-col-type">ENUM</span><span class="schema-col-note">active/inactive</span></div>
             <div class="schema-col"><span class="schema-col-name">created_at</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">DEFAULT NOW()</span></div>
           </div>
@@ -1240,7 +1240,7 @@ nav {
             <div class="schema-col"><span class="schema-col-name">title</span><span class="schema-col-type">VARCHAR(200)</span><span class="schema-col-note">NOT NULL</span></div>
             <div class="schema-col"><span class="schema-col-name">description</span><span class="schema-col-type">TEXT</span><span class="schema-col-note">Details</span></div>
             <div class="schema-col"><span class="schema-col-name">subject</span><span class="schema-col-type">VARCHAR(100)</span><span class="schema-col-note">Course name</span></div>
-            <div class="schema-col"><span class="schema-col-name fk">faculty_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ faculty</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">faculty_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK → faculty</span></div>
             <div class="schema-col"><span class="schema-col-name">due_date</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">Deadline</span></div>
             <div class="schema-col"><span class="schema-col-name">max_marks</span><span class="schema-col-type">INT</span><span class="schema-col-note">DEFAULT 100</span></div>
             <div class="schema-col"><span class="schema-col-name">status</span><span class="schema-col-type">ENUM</span><span class="schema-col-note">active/closed</span></div>
@@ -1253,13 +1253,13 @@ nav {
         <div class="schema-table">
           <div class="schema-cols">
             <div class="schema-col"><span class="schema-col-name pk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK</span></div>
-            <div class="schema-col"><span class="schema-col-name fk">student_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ students</span></div>
-            <div class="schema-col"><span class="schema-col-name fk">assignment_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ assignments</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">student_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK → students</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">assignment_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK → assignments</span></div>
             <div class="schema-col"><span class="schema-col-name">file_path</span><span class="schema-col-type">VARCHAR(500)</span><span class="schema-col-note">Stored file path</span></div>
             <div class="schema-col"><span class="schema-col-name">file_name</span><span class="schema-col-type">VARCHAR(255)</span><span class="schema-col-note">Original filename</span></div>
             <div class="schema-col"><span class="schema-col-name">submitted_at</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">Timestamp</span></div>
             <div class="schema-col"><span class="schema-col-name">is_late</span><span class="schema-col-type">TINYINT(1)</span><span class="schema-col-note">0/1</span></div>
-            <div class="schema-col"><span class="schema-col-name">similarity_pct</span><span class="schema-col-type">DECIMAL(5,2)</span><span class="schema-col-note">0.00â€“100.00</span></div>
+            <div class="schema-col"><span class="schema-col-name">similarity_pct</span><span class="schema-col-type">DECIMAL(5,2)</span><span class="schema-col-note">0.00–100.00</span></div>
             <div class="schema-col"><span class="schema-col-name">status</span><span class="schema-col-type">ENUM</span><span class="schema-col-note">submitted/graded</span></div>
             <div class="schema-col"><span class="schema-col-name">comments</span><span class="schema-col-type">TEXT</span><span class="schema-col-note">Student comments</span></div>
           </div>
@@ -1271,8 +1271,8 @@ nav {
         <div class="schema-table">
           <div class="schema-cols">
             <div class="schema-col"><span class="schema-col-name pk">eval_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK</span></div>
-            <div class="schema-col"><span class="schema-col-name fk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ submissions</span></div>
-            <div class="schema-col"><span class="schema-col-name fk">faculty_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ faculty</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK → submissions</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">faculty_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK → faculty</span></div>
             <div class="schema-col"><span class="schema-col-name">marks</span><span class="schema-col-type">INT</span><span class="schema-col-note">Marks awarded</span></div>
             <div class="schema-col"><span class="schema-col-name">grade</span><span class="schema-col-type">VARCHAR(5)</span><span class="schema-col-note">O/A+/A/B+...</span></div>
             <div class="schema-col"><span class="schema-col-name">feedback</span><span class="schema-col-type">TEXT</span><span class="schema-col-note">Faculty feedback</span></div>
@@ -1286,8 +1286,8 @@ nav {
         <div class="schema-table">
           <div class="schema-cols">
             <div class="schema-col"><span class="schema-col-name pk">log_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">PK</span></div>
-            <div class="schema-col"><span class="schema-col-name fk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ submissions</span></div>
-            <div class="schema-col"><span class="schema-col-name fk">matched_submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK â†’ submissions</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK → submissions</span></div>
+            <div class="schema-col"><span class="schema-col-name fk">matched_submission_id</span><span class="schema-col-type">INT</span><span class="schema-col-note">FK → submissions</span></div>
             <div class="schema-col"><span class="schema-col-name">similarity_pct</span><span class="schema-col-type">DECIMAL(5,2)</span><span class="schema-col-note">Match %</span></div>
             <div class="schema-col"><span class="schema-col-name">checked_at</span><span class="schema-col-type">DATETIME</span><span class="schema-col-note">When checked</span></div>
           </div>
@@ -1296,27 +1296,27 @@ nav {
     </div>
 
     <div class="panel">
-      <div class="panel-title">Node.js + Express Backend â€” API Endpoints</div>
+      <div class="panel-title">Node.js + Express Backend — API Endpoints</div>
       <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; line-height:2.2; color:var(--text-dim)">
-        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/auth/student/login</span>       â€” Authenticate student</div>
-        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/auth/faculty/login</span>       â€” Authenticate faculty</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/students</span>                 â€” List all students (admin)</div>
-        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/students</span>                 â€” Add student (admin)</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/assignments</span>              â€” Get all assignments</div>
-        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/assignments</span>              â€” Create assignment</div>
-        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/submissions/upload</span>       â€” Upload submission (multipart)</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/submissions/:studentId</span>   â€” Student's submissions</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/submissions/all</span>          â€” All submissions (faculty)</div>
-        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/evaluations</span>              â€” Save evaluation</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/evaluations/:studentId</span>   â€” Student evaluations</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/plagiarism/:assignmentId</span> â€” Similarity results</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/reports/class</span>            â€” Class-wide report</div>
-        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/reports/student/:id</span>      â€” Individual report</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/auth/student/login</span>       — Authenticate student</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/auth/faculty/login</span>       — Authenticate faculty</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/students</span>                 — List all students (admin)</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/students</span>                 — Add student (admin)</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/assignments</span>              — Get all assignments</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/assignments</span>              — Create assignment</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/submissions/upload</span>       — Upload submission (multipart)</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/submissions/:studentId</span>   — Student's submissions</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/submissions/all</span>          — All submissions (faculty)</div>
+        <div><span style="color:var(--accent3)">POST</span>  <span style="color:var(--text)">/api/evaluations</span>              — Save evaluation</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/evaluations/:studentId</span>   — Student evaluations</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/plagiarism/:assignmentId</span> — Similarity results</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/reports/class</span>            — Class-wide report</div>
+        <div><span style="color:var(--accent)">GET </span>  <span style="color:var(--text)">/api/reports/student/:id</span>      — Individual report</div>
       </div>
     </div>
 
     <div style="margin-top:1.5rem; text-align:center">
-      <button class="btn btn-ghost" onclick="showPage('home')">â† Back to Home</button>
+      <button class="btn btn-ghost" onclick="showPage('home')">← Back to Home</button>
     </div>
   </div>
 </div>
@@ -1326,12 +1326,12 @@ nav {
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">Evaluate Submission</div>
-      <button class="modal-close" onclick="closeModal('evalModal')">âœ•</button>
+      <button class="modal-close" onclick="closeModal('evalModal')">✕</button>
     </div>
     <div class="modal-body">
       <div id="evalModalStudentInfo" style="margin-bottom:1.25rem"></div>
       <div class="grid-2">
-        <div class="form-group"><label class="form-label">Marks (0â€“100)</label><input class="form-input" id="modalMarks" type="number" min="0" max="100"></div>
+        <div class="form-group"><label class="form-label">Marks (0–100)</label><input class="form-input" id="modalMarks" type="number" min="0" max="100"></div>
         <div class="form-group"><label class="form-label">Grade</label><select class="form-select" id="modalGrade"><option>O</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>F</option></select></div>
       </div>
       <div class="form-group"><label class="form-label">Feedback</label><textarea class="form-textarea" id="modalFeedback" placeholder="Write detailed feedback..."></textarea></div>
@@ -1347,13 +1347,13 @@ nav {
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">Add New Student</div>
-      <button class="modal-close" onclick="closeModal('addStudentModal')">âœ•</button>
+      <button class="modal-close" onclick="closeModal('addStudentModal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-group"><label class="form-label">Registration Number</label><input class="form-input" id="newStuReg" placeholder="e.g. 368"></div>
       <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="newStuName" placeholder="Student name"></div>
       <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="newStuEmail" type="email" placeholder="student@college.edu"></div>
-      <div class="form-group"><label class="form-label">Batch</label><input class="form-input" id="newStuBatch" value="2022â€“2026"></div>
+      <div class="form-group"><label class="form-label">Batch</label><input class="form-input" id="newStuBatch" value="2022–2026"></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost btn-sm" onclick="closeModal('addStudentModal')">Cancel</button>
@@ -1366,7 +1366,7 @@ nav {
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">Create Assignment</div>
-      <button class="modal-close" onclick="closeModal('createAssignModal')">âœ•</button>
+      <button class="modal-close" onclick="closeModal('createAssignModal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="newAssignTitle" placeholder="Assignment title"></div>
@@ -1384,29 +1384,29 @@ nav {
   </div>
 </div>
 
-<script>// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-//  CS Assignment Portal â€” app.js
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+<script>// ═══════════════════════════════════════════
+//  CS Assignment Portal — app.js
+// ═══════════════════════════════════════════
 
-// â”€â”€ DATA STORE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── DATA STORE ──────────────────────────────
 const students = [
-  { id:1, reg:'351', name:'Jahnavi Reddy',   email:'jahnavi@csed.edu',   batch:'2022â€“26', status:'active', password:'351' },
-  { id:2, reg:'352', name:'Vindhya Sharma',  email:'vindhya@csed.edu',   batch:'2022â€“26', status:'active', password:'352' },
-  { id:3, reg:'353', name:'Ravi Kumar',       email:'ravi@csed.edu',      batch:'2022â€“26', status:'active', password:'353' },
-  { id:4, reg:'354', name:'Govardhan Pillai', email:'govardhan@csed.edu', batch:'2022â€“26', status:'active', password:'354' },
-  { id:5, reg:'355', name:'Dumku Srinivas',  email:'dumku@csed.edu',     batch:'2022â€“26', status:'active', password:'355' },
-  { id:6, reg:'356', name:'Kutty Nair',       email:'kutty@csed.edu',     batch:'2022â€“26', status:'active', password:'356' },
-  { id:7, reg:'357', name:'Jyo Patel',        email:'jyo@csed.edu',       batch:'2022â€“26', status:'active', password:'357' },
-  { id:8, reg:'358', name:'Appus Verma',      email:'appus@csed.edu',     batch:'2022â€“26', status:'active', password:'358' },
-  { id:9, reg:'359', name:'Anju Menon',       email:'anju@csed.edu',      batch:'2022â€“26', status:'active', password:'359' },
-  { id:10,reg:'360', name:'Baavan Das',       email:'baavan@csed.edu',    batch:'2022â€“26', status:'active', password:'360' },
-  { id:11,reg:'361', name:'Saketh Rao',       email:'saketh@csed.edu',    batch:'2022â€“26', status:'active', password:'361' },
-  { id:12,reg:'362', name:'Priya Lakshmi',   email:'priya@csed.edu',     batch:'2022â€“26', status:'active', password:'362' },
-  { id:13,reg:'363', name:'Akash Mohan',     email:'akash@csed.edu',     batch:'2022â€“26', status:'active', password:'363' },
-  { id:14,reg:'364', name:'Deepika Iyer',    email:'deepika@csed.edu',   batch:'2022â€“26', status:'active', password:'364' },
-  { id:15,reg:'365', name:'Harish Chandra',  email:'harish@csed.edu',    batch:'2022â€“26', status:'active', password:'365' },
-  { id:16,reg:'366', name:'Nithya Balaji',   email:'nithya@csed.edu',    batch:'2022â€“26', status:'active', password:'366' },
-  { id:17,reg:'367', name:'Sujith Krishnan', email:'sujith@csed.edu',    batch:'2022â€“26', status:'active', password:'367' },
+  { id:1, reg:'351', name:'Jahnavi Reddy',   email:'jahnavi@csed.edu',   batch:'2022–26', status:'active', password:'351' },
+  { id:2, reg:'352', name:'Vindhya Sharma',  email:'vindhya@csed.edu',   batch:'2022–26', status:'active', password:'352' },
+  { id:3, reg:'353', name:'Ravi Kumar',       email:'ravi@csed.edu',      batch:'2022–26', status:'active', password:'353' },
+  { id:4, reg:'354', name:'Govardhan Pillai', email:'govardhan@csed.edu', batch:'2022–26', status:'active', password:'354' },
+  { id:5, reg:'355', name:'Dumku Srinivas',  email:'dumku@csed.edu',     batch:'2022–26', status:'active', password:'355' },
+  { id:6, reg:'356', name:'Kutty Nair',       email:'kutty@csed.edu',     batch:'2022–26', status:'active', password:'356' },
+  { id:7, reg:'357', name:'Jyo Patel',        email:'jyo@csed.edu',       batch:'2022–26', status:'active', password:'357' },
+  { id:8, reg:'358', name:'Appus Verma',      email:'appus@csed.edu',     batch:'2022–26', status:'active', password:'358' },
+  { id:9, reg:'359', name:'Anju Menon',       email:'anju@csed.edu',      batch:'2022–26', status:'active', password:'359' },
+  { id:10,reg:'360', name:'Baavan Das',       email:'baavan@csed.edu',    batch:'2022–26', status:'active', password:'360' },
+  { id:11,reg:'361', name:'Saketh Rao',       email:'saketh@csed.edu',    batch:'2022–26', status:'active', password:'361' },
+  { id:12,reg:'362', name:'Priya Lakshmi',   email:'priya@csed.edu',     batch:'2022–26', status:'active', password:'362' },
+  { id:13,reg:'363', name:'Akash Mohan',     email:'akash@csed.edu',     batch:'2022–26', status:'active', password:'363' },
+  { id:14,reg:'364', name:'Deepika Iyer',    email:'deepika@csed.edu',   batch:'2022–26', status:'active', password:'364' },
+  { id:15,reg:'365', name:'Harish Chandra',  email:'harish@csed.edu',    batch:'2022–26', status:'active', password:'365' },
+  { id:16,reg:'366', name:'Nithya Balaji',   email:'nithya@csed.edu',    batch:'2022–26', status:'active', password:'366' },
+  { id:17,reg:'367', name:'Sujith Krishnan', email:'sujith@csed.edu',    batch:'2022–26', status:'active', password:'367' },
 ];
 
 const faculty = [
@@ -1416,11 +1416,11 @@ const faculty = [
 ];
 
 const assignments = [
-  { id:1, title:'Data Structures â€” Linked List Implementation', subject:'Data Structures', faculty_id:1, due:'2025-02-15', max:100, status:'active', desc:'Implement singly, doubly and circular linked lists in C++ with all operations.' },
-  { id:2, title:'Operating Systems â€” Process Scheduling', subject:'Operating Systems', faculty_id:2, due:'2025-02-20', max:100, status:'active', desc:'Simulate FCFS, SJF, Round Robin and Priority scheduling algorithms.' },
-  { id:3, title:'DBMS â€” ER Diagram & SQL Queries', subject:'Database Management', faculty_id:1, due:'2025-03-01', max:100, status:'active', desc:'Design ER diagram for a hospital management system and write 20 SQL queries.' },
-  { id:4, title:'Computer Networks â€” Socket Programming', subject:'Computer Networks', faculty_id:3, due:'2025-03-10', max:100, status:'active', desc:'Implement a simple HTTP server using TCP sockets in Python.' },
-  { id:5, title:'Machine Learning â€” Regression Analysis', subject:'Machine Learning', faculty_id:2, due:'2025-03-20', max:100, status:'active', desc:'Apply linear & polynomial regression on a provided dataset and analyze results.' },
+  { id:1, title:'Data Structures — Linked List Implementation', subject:'Data Structures', faculty_id:1, due:'2025-02-15', max:100, status:'active', desc:'Implement singly, doubly and circular linked lists in C++ with all operations.' },
+  { id:2, title:'Operating Systems — Process Scheduling', subject:'Operating Systems', faculty_id:2, due:'2025-02-20', max:100, status:'active', desc:'Simulate FCFS, SJF, Round Robin and Priority scheduling algorithms.' },
+  { id:3, title:'DBMS — ER Diagram & SQL Queries', subject:'Database Management', faculty_id:1, due:'2025-03-01', max:100, status:'active', desc:'Design ER diagram for a hospital management system and write 20 SQL queries.' },
+  { id:4, title:'Computer Networks — Socket Programming', subject:'Computer Networks', faculty_id:3, due:'2025-03-10', max:100, status:'active', desc:'Implement a simple HTTP server using TCP sockets in Python.' },
+  { id:5, title:'Machine Learning — Regression Analysis', subject:'Machine Learning', faculty_id:2, due:'2025-03-20', max:100, status:'active', desc:'Apply linear & polynomial regression on a provided dataset and analyze results.' },
 ];
 
 // Generate realistic submissions
@@ -1484,21 +1484,21 @@ submissions.forEach(sub => {
   }
 });
 
-// â”€â”€ STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── STATE ────────────────────────────────────
 let currentUser = null;
 let currentRole = null;
 let selectedSubId = null;
 let uploadedFile = null;
 let activeStatusFilter = 'all';
 
-// â”€â”€ ROUTING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── ROUTING ──────────────────────────────────
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
 
-// â”€â”€ AUTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── AUTH ─────────────────────────────────────
 function stuLogin() {
   const reg = document.getElementById('stuRegInput').value.trim();
   const pass = document.getElementById('stuPassInput').value.trim();
@@ -1545,7 +1545,7 @@ function showNavUser(name, initial) {
   document.getElementById('navLinks').style.display = 'none';
 }
 
-// â”€â”€ UTILS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── UTILS ─────────────────────────────────────
 function showAlert(id, hide=false) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -1557,7 +1557,7 @@ function showToast(msg, type='info') {
   const c = document.getElementById('toastContainer');
   const t = document.createElement('div');
   t.className = `toast toast-${type}`;
-  t.innerHTML = (type==='success'?'âœ“ ':type==='error'?'âœ• ':'â„¹ ') + msg;
+  t.innerHTML = (type==='success'?'✓ ':type==='error'?'✕ ':'ℹ ') + msg;
   c.appendChild(t);
   setTimeout(() => t.remove(), 3500);
 }
@@ -1604,7 +1604,7 @@ function calcAvg(stuId) {
 function getAssign(id) { return assignments.find(a => a.id === id); }
 function getStudent(id) { return students.find(s => s.id === id); }
 
-// â”€â”€ STUDENT DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── STUDENT DASHBOARD ─────────────────────────
 function loadStudentDash() {
   const stu = currentUser;
   document.getElementById('stuWelcomeName').textContent = stu.name.split(' ')[0];
@@ -1617,7 +1617,7 @@ function loadStudentDash() {
 
   document.getElementById('stu-kpi-sub').textContent = subs.length;
   document.getElementById('stu-kpi-graded').textContent = graded.length;
-  document.getElementById('stu-kpi-avg').textContent = avg ? avg + '%' : 'â€”';
+  document.getElementById('stu-kpi-avg').textContent = avg ? avg + '%' : '—';
   document.getElementById('stu-kpi-pending').textContent = pending.length;
 
   // Active assignments
@@ -1640,7 +1640,7 @@ function loadStudentDash() {
     return `<div style="display:flex;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--border);align-items:flex-start">
       <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:5px;flex-shrink:0"></div>
       <div>
-        <div style="font-size:0.8rem">${a?.subject || 'â€”'}</div>
+        <div style="font-size:0.8rem">${a?.subject || '—'}</div>
         <div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${fmtDate(s.submitted_at)} ${s.is_late?'<span style="color:var(--warn)">(Late)</span>':''}</div>
       </div>
       <span class="badge badge-${s.status==='graded'?'graded':'submitted'}" style="margin-left:auto">${s.status}</span>
@@ -1699,7 +1699,7 @@ function renderStuMarks() {
           <div class="feedback-box">${ev.feedback}</div>
           <div style="display:flex;gap:1rem;margin-top:0.75rem">
             <div style="font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted)">Similarity: <span class="${simClass(sub.similarity_pct)}">${sub.similarity_pct}%</span></div>
-            <div style="font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted)">${sub.is_late?'âš  Late submission':''}</div>
+            <div style="font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted)">${sub.is_late?'⚠ Late submission':''}</div>
           </div>
         </div>
       </div>
@@ -1723,7 +1723,7 @@ function renderStuReport() {
         <p style="margin-top:4px">Computer Science & Engineering Department</p>
       </div>
       <div style="margin-left:auto;text-align:right">
-        <div style="font-size:2rem;font-weight:800;color:var(--accent)">${avg || 'â€”'}%</div>
+        <div style="font-size:2rem;font-weight:800;color:var(--accent)">${avg || '—'}%</div>
         <div style="font-size:0.72rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">Overall Average</div>
       </div>
     </div>
@@ -1744,9 +1744,9 @@ function renderStuReport() {
             <td style="font-size:0.8rem">${a.title.substring(0,40)}...</td>
             <td style="font-size:0.78rem;color:var(--text-dim)">${a.subject}</td>
             <td>${sub ? `<span class="badge badge-submitted">Yes</span>` : '<span class="badge badge-pending">Not submitted</span>'}</td>
-            <td>${sub ? `<span class="${simClass(sub.similarity_pct)}" style="font-family:monospace">${sub.similarity_pct}%</span>` : 'â€”'}</td>
-            <td>${ev ? `<strong>${ev.marks}/100</strong>` : sub ? '<span style="color:var(--gold);font-size:0.78rem">Pending</span>' : 'â€”'}</td>
-            <td>${ev ? `<span class="badge badge-graded">${ev.grade}</span>` : 'â€”'}</td>
+            <td>${sub ? `<span class="${simClass(sub.similarity_pct)}" style="font-family:monospace">${sub.similarity_pct}%</span>` : '—'}</td>
+            <td>${ev ? `<strong>${ev.marks}/100</strong>` : sub ? '<span style="color:var(--gold);font-size:0.78rem">Pending</span>' : '—'}</td>
+            <td>${ev ? `<span class="badge badge-graded">${ev.grade}</span>` : '—'}</td>
           </tr>`;
         }).join('')}
         </tbody>
@@ -1802,7 +1802,7 @@ function submitAssignment() {
   loadStudentDash();
 }
 
-// â”€â”€ FACULTY DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── FACULTY DASHBOARD ──────────────────────────
 function loadFacultyDash() {
   document.getElementById('facName').textContent = currentUser.name;
   const pending = submissions.filter(s=>s.status!=='graded').length;
@@ -1889,7 +1889,7 @@ function renderFacSubsFiltered(status, search) {
       <td style="font-family:'JetBrains Mono',monospace;font-size:0.75rem">${fmtDate(s.submitted_at)} ${s.is_late?'<span class="badge badge-late" style="margin-left:4px">Late</span>':''}</td>
       <td><span class="sim-pct ${simClass(s.similarity_pct)}">${s.similarity_pct}%</span></td>
       <td><span class="badge badge-${s.status==='graded'?'graded':'pending'}">${s.status==='graded'?'Graded':'Pending'}</span></td>
-      <td>${ev?`<strong>${ev.marks}/100</strong>`:'<span style="color:var(--text-muted)">â€”</span>'}</td>
+      <td>${ev?`<strong>${ev.marks}/100</strong>`:'<span style="color:var(--text-muted)">—</span>'}</td>
       <td><button class="btn btn-sm" style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:var(--accent2)" onclick="openEvalModal(${s.id})">Evaluate</button></td>
     </tr>`;
   }).join('') || '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted)">No submissions found</td></tr>';
@@ -1964,7 +1964,7 @@ function populateEvalSelect() {
   sel.innerHTML = '<option value="">-- Select a submission --</option>' +
     submissions.map(s=>{
       const stu=getStudent(s.student_id); const a=getAssign(s.assignment_id);
-      return `<option value="${s.id}">${stu?.name} (${stu?.reg}) â€” ${a?.subject}</option>`;
+      return `<option value="${s.id}">${stu?.name} (${stu?.reg}) — ${a?.subject}</option>`;
     }).join('');
 }
 
@@ -2004,13 +2004,13 @@ function renderFacAnalytics() {
     </div>`).join('');
 
   // Score distribution
-  const ranges={'>= 90':0,'80â€“89':0,'70â€“79':0,'60â€“69':0,'50â€“59':0,'< 50':0};
+  const ranges={'>= 90':0,'80–89':0,'70–79':0,'60–69':0,'50–59':0,'< 50':0};
   evaluations.forEach(e=>{
     if(e.marks>=90)ranges['>=90']=(ranges['>=90']||0)+1,ranges['> 90']=undefined;
-    const k=e.marks>=90?'> 90':e.marks>=80?'80â€“89':e.marks>=70?'70â€“79':e.marks>=60?'60â€“69':e.marks>=50?'50â€“59':'< 50';
+    const k=e.marks>=90?'> 90':e.marks>=80?'80–89':e.marks>=70?'70–79':e.marks>=60?'60–69':e.marks>=50?'50–59':'< 50';
     ranges[k]=(ranges[k]||0)+1;
   });
-  const rKeys=['>= 90','80â€“89','70â€“79','60â€“69','50â€“59','< 50'];
+  const rKeys=['>= 90','80–89','70–79','60–69','50–59','< 50'];
   const rColors=['var(--accent3)','var(--accent)','#22d3ee','var(--gold)','var(--warn)','var(--danger)'];
   document.getElementById('facScoreDist').innerHTML = rKeys.map((r,i)=>`
     <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem">
@@ -2027,7 +2027,7 @@ function renderFacAnalytics() {
     return `<div style="display:flex;align-items:center;gap:1rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
       <div style="flex:1"><div style="font-size:0.82rem;font-weight:600">${a.title.substring(0,50)}...</div><div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">${a.subject} | ${evs.length} evaluated</div></div>
       <div class="prog-bar-wrap" style="width:120px"><div class="prog-bar ${avg>=70?'green':avg>=50?'':'red'}" style="width:${avg}%"></div></div>
-      <div style="font-weight:800;color:var(--accent);font-size:1rem;width:45px;text-align:right">${avg || 'â€”'}%</div>
+      <div style="font-weight:800;color:var(--accent);font-size:1rem;width:45px;text-align:right">${avg || '—'}%</div>
     </div>`;
   }).join('');
 }
@@ -2048,7 +2048,7 @@ function renderFacReports() {
         <div style="font-size:1.5rem;font-weight:800;color:${avg?avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)':'var(--text-muted)'}">${avg||'N/A'}%</div>
         <div style="font-size:0.68rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">Avg Score</div>
       </div>
-      <button class="btn btn-ghost btn-sm">Details â–¾</button>
+      <button class="btn btn-ghost btn-sm">Details ▾</button>
     </div>
     <div style="display:none;margin-bottom:1rem;padding:1rem;background:var(--surface2);border-radius:0 0 12px 12px;border:1px solid var(--border);border-top:none">
       <table class="data-table">
@@ -2056,14 +2056,14 @@ function renderFacReports() {
         <tbody>${assignments.map(a=>{
           const sub=subs.find(s=>s.assignment_id===a.id);
           const ev=sub?getSubEval(sub.id):null;
-          return `<tr><td style="font-size:0.78rem">${a.subject}</td><td>${sub?'<span class="badge badge-submitted">Yes</span>':'<span class="badge badge-pending">No</span>'}</td><td>${sub?`<span class="${simClass(sub.similarity_pct)}">${sub.similarity_pct}%</span>`:'â€”'}</td><td>${ev?`<strong>${ev.marks}</strong>`:'â€”'}</td><td>${ev?`<span class="badge badge-graded">${ev.grade}</span>`:'â€”'}</td></tr>`;
+          return `<tr><td style="font-size:0.78rem">${a.subject}</td><td>${sub?'<span class="badge badge-submitted">Yes</span>':'<span class="badge badge-pending">No</span>'}</td><td>${sub?`<span class="${simClass(sub.similarity_pct)}">${sub.similarity_pct}%</span>`:'—'}</td><td>${ev?`<strong>${ev.marks}</strong>`:'—'}</td><td>${ev?`<span class="badge badge-graded">${ev.grade}</span>`:'—'}</td></tr>`;
         }).join('')}</tbody>
       </table>
     </div>`;
   }).join('');
 }
 
-// â”€â”€ ADMIN DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── ADMIN DASHBOARD ────────────────────────────
 function loadAdminDash() {
   renderAdminStudents();
   renderAdminAssignments();
@@ -2089,7 +2089,7 @@ function renderAdminStudents() {
       <td style="font-weight:600">${s.name}</td>
       <td style="font-size:0.78rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace">${s.email}</td>
       <td style="text-align:center">${subs.length}</td>
-      <td style="text-align:center;font-weight:700;color:${avg?avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)':'var(--text-muted)'}">${avg?avg+'%':'â€”'}</td>
+      <td style="text-align:center;font-weight:700;color:${avg?avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)':'var(--text-muted)'}">${avg?avg+'%':'—'}</td>
       <td><span class="badge badge-${s.status==='active'?'active':'inactive'}">${s.status}</span></td>
       <td>
         <button class="btn btn-ghost btn-sm" onclick="showToast('Edit student: ${s.name}','info')">Edit</button>
@@ -2117,7 +2117,7 @@ function renderAdminAssignments() {
       <td style="font-family:'JetBrains Mono',monospace;font-size:0.78rem">${a.due}</td>
       <td style="text-align:center">${a.max}</td>
       <td style="text-align:center">${subs.length}</td>
-      <td style="text-align:center;font-weight:700;color:var(--accent3)">${avg?avg+'%':'â€”'}</td>
+      <td style="text-align:center;font-weight:700;color:var(--accent3)">${avg?avg+'%':'—'}</td>
       <td><button class="btn btn-ghost btn-sm" onclick="showToast('Edit assignment functionality','info')">Edit</button></td>
     </tr>`;
   }).join('');
@@ -2156,8 +2156,8 @@ function renderAdminReports() {
             <td style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${s.reg}</td>
             <td style="font-weight:600">${s.name}</td>
             <td style="text-align:center">${subs.length}</td>
-            ${assignments.map(a=>{const sub=subs.find(ss=>ss.assignment_id===a.id);const ev=sub?getSubEval(sub.id):null;return `<td style="text-align:center;font-family:'JetBrains Mono',monospace">${ev?ev.marks:'â€”'}</td>`;}).join('')}
-            <td style="font-weight:800;color:${avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)'}">${avg||'â€”'}%</td>
+            ${assignments.map(a=>{const sub=subs.find(ss=>ss.assignment_id===a.id);const ev=sub?getSubEval(sub.id):null;return `<td style="text-align:center;font-family:'JetBrains Mono',monospace">${ev?ev.marks:'—'}</td>`;}).join('')}
+            <td style="font-weight:800;color:${avg>=70?'var(--accent3)':avg>=50?'var(--gold)':'var(--danger)'}">${avg||'—'}%</td>
             <td style="font-family:'JetBrains Mono',monospace;color:var(--text-dim)">#${rank+1}</td>
           </tr>`;
         }).join('')}
@@ -2178,7 +2178,7 @@ function renderAdminSysStatus() {
         {label:'API Server',status:'Running',ok:true},
       ].map(item=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)">
         <span style="font-size:0.82rem">${item.label}</span>
-        <span style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:${item.ok?'var(--accent3)':'var(--danger)'}">â— ${item.status}</span>
+        <span style="font-size:0.75rem;font-family:'JetBrains Mono',monospace;color:${item.ok?'var(--accent3)':'var(--danger)'}">● ${item.status}</span>
       </div>`).join('')}
     </div>`;
   document.getElementById('adminRecentActions').innerHTML = `
